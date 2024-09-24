@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        .login-container h1 {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="password"] {
+            padding: 10px;
+            margin: 10px;
+            width: 80%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .btn, .gmail-btn {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .gmail-btn {
+            background-color: #db4437;
+        }
+        .btn:hover, .gmail-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Student Login</h1>
+        <form action="/student-dashboard" method="POST">
+            <input type="text" name="student_id" placeholder="Student ID" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <button class="btn" type="submit">Login</button>
+        </form>
+        <br>
+        <button class="gmail-btn" onclick="loginWithGoogle()">Login with Gmail</button>
+    </div>
+
+    <script>
+        function loginWithGoogle() {
+            window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=your-redirect-url&response_type=code&client_id=your-client-id&scope=email%20profile&access_type=online';
+        }
+    </script>
+</body>
+</html>
