@@ -24,7 +24,7 @@
         .container h1 {
             margin-bottom: 20px;
         }
-        .btn {
+        .btn, .signup-btn, .gmail-btn {
             padding: 10px 20px;
             margin: 10px;
             border: none;
@@ -34,25 +34,47 @@
             font-size: 16px;
             border-radius: 5px;
         }
-        .btn:hover {
-            background-color: #0056b3;
+        .signup-btn {
+            background-color: #28a745;
+        }
+        .gmail-btn {
+            background-color: #db4437;
+        }
+        .btn:hover, .signup-btn:hover, .gmail-btn:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Are you a Student or Teacher?</h1>
-        <button class="btn" onclick="redirectToLogin('student')">Student</button>
-        <button class="btn" onclick="redirectToLogin('teacher')">Teacher</button>
+        <button class="btn" onclick="redirectToLogin('student')">Student Login</button>
+        <button class="btn" onclick="redirectToLogin('teacher')">Teacher Login</button>
+        <br><br>
+        <h2>Or Sign Up</h2>
+        <button class="signup-btn" onclick="redirectToSignup()">Sign Up</button>
+        <br><br>
+        <button class="gmail-btn" onclick="loginWithGoogle()">Login with Gmail</button>
     </div>
 
     <script>
+        // Function to redirect to Student or Teacher login
         function redirectToLogin(userType) {
             if (userType === 'student') {
                 window.location.href = 'student-login.html';
             } else if (userType === 'teacher') {
                 window.location.href = 'teacher-login.html';
             }
+        }
+
+        // Function to redirect to the Sign Up page
+        function redirectToSignup() {
+            window.location.href = 'sign up.html'; // Ensure 'signup.html' exists in your project folder
+        }
+
+        // Simulate Gmail OAuth login (replace with actual credentials for production)
+        function loginWithGoogle() {
+            window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=your-redirect-url&response_type=code&client_id=your-client-id&scope=email%20profile&access_type=online';
         }
     </script>
 </body>
