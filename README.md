@@ -1,8 +1,8 @@
-# SOEN341
-## Group: Anything
-### SeyedParsa Hejazi (40247098)
-### Amro Atique (40272828)
-### Parsa Rashidi (40279021)
-### Han Lee (40265531)
-### Frankies Vat (40218933)
-### Ferhaan Hawas (40224777)
+# nodejs
+A minimal Node.js web application.
+
+![static-site](public/images/static-site.png)
+
+For a step-by-step guide to deploying on [Railway](https://railway.app/?referralCode=alphasec), see [this](https://alphasec.io/how-to-deploy-a-nodejs-app-on-railway/) post, or click the button below.
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/Abo1zu?referralCode=alphasec)
