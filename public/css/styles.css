@@ -40,6 +40,7 @@ input[type="text"], input[type="email"], input[type="password"] {
     cursor: pointer;
     font-size: 16px;
     border-radius: 5px;
+    text-decoration: none;
 }
 
 .gmail-btn {
@@ -69,6 +70,14 @@ body.login-selection {
 
 body.student-login {
     background-image: url('/images/sts.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+body.signup {
+    background-image: url('/images/rgt.JPG');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
