@@ -14,6 +14,14 @@
         <button class="btn" onclick="redirectToLogin('student')">Student</button>
         <button class="btn" onclick="redirectToLogin('teacher')">Teacher</button>
     </div>
+
+    <script>
+        // JavaScript function for redirection
+        function redirectToLogin(role) {
+            window.location.href = `/${role}-login`; // This will redirect to '/teacher-login' or '/student-login'
+        }
+    </script>
+
 </body>
 
 </html>
