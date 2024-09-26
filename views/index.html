@@ -58,7 +58,6 @@
     </div>
 
     <script>
-        // Function to redirect to Student or Teacher login
         function redirectToLogin(userType) {
             if (userType === 'student') {
                 window.location.href = 'student-login.html';
@@ -67,12 +66,10 @@
             }
         }
 
-        // Function to redirect to the Sign Up page
         function redirectToSignup() {
-            window.location.href = 'sign up.html'; // Ensure 'signup.html' exists in your project folder
+            window.location.href = 'sign up.html';
         }
 
-        // Simulate Gmail OAuth login (replace with actual credentials for production)
         function loginWithGoogle() {
             window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=your-redirect-url&response_type=code&client_id=your-client-id&scope=email%20profile&access_type=online';
         }
