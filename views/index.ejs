@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Selection</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/script.js"></script>
 </head>
 
 <body class="login-selection">
@@ -14,13 +15,6 @@
         <button class="btn" onclick="redirectToLogin('student')">Student</button>
         <button class="btn" onclick="redirectToLogin('teacher')">Teacher</button>
     </div>
-
-    <script>
-        // JavaScript function for redirection
-        function redirectToLogin(role) {
-            window.location.href = `/${role}-login`; // This will redirect to '/teacher-login' or '/student-login'
-        }
-    </script>
 
 </body>
 
