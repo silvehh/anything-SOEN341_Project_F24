@@ -6,26 +6,22 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const app = express();
 const port = 3000;
 
-// Middleware to parse form data
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Set up CSV writer
 const csvWriter = createCsvWriter({
   path: 'users.csv',
   header: [
     { id: 'name', title: 'Name' },
     { id: 'email', title: 'Email' },
-    { id: 'password', title: 'Password' },  // In practice, DO NOT store plain-text passwords
+    { id: 'password', title: 'Password' }, 
     { id: 'role', title: 'Role' }
   ],
-  append: true  // Append to the file if it exists
+  append: true 
 });
 
-// Handle the form submission
 app.post('/signup-process', (req, res) => {
   const { name, email, password, role } = req.body;
 
-  // Store the submitted data
   csvWriter.writeRecords([{ name, email, password, role }])
     .then(() => {
       console.log('Credentials saved to users.csv');
@@ -37,9 +33,8 @@ app.post('/signup-process', (req, res) => {
     });
 });
 
-// Serve the HTML file
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/sign-up.html'); // Path to your signup HTML
+  res.sendFile(__dirname + '/sign-up.html');
 });
 
 app.listen(port, () => {
