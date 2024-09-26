@@ -1,21 +1,40 @@
 const express = require('express');
 const path = require('path');
-const indexRouter = require('./routes/index');
+const bodyParser = require('body-parser');
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
 const app = express();
-const PORT = 3000;
+const port = 3000;
 
-// Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public')));
+// Middleware to parse form data
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// Use the router for handling routes
-app.use('/', indexRouter);
+// Serve static files
+app.use(express.static('public'));
 
-// Catch-all route for handling 404 errors
-app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
-  });
-
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
+// Set up CSV writer
+const csvWriter = createCsvWriter({
+  path: 'users.csv',
+  header: [
+    { id: 'name', title: 'Name' },
+    { id: 'email', title: 'Email' },
+    { id: 'password', title: 'Password' },  // Make sure to hash passwords in real scenarios
+    { id: 'role', title: 'Role' }
+  ],
+  append: true
 });
+
+// Route handling (simplified)
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'views', 'index.html')));
+app.get('/student-login', (req, res) => res.sendFile(path.join(__dirname, 'views', 'student-login.html')));
+app.get('/teacher-login', (req, res) => res.sendFile(path.join(__dirname, 'views', 'teacher-login.html')));
+app.get('/signup', (req, res) => res.sendFile(path.join(__dirname, 'views', 'signup.html')));
+
+app.post('/signup-process', (req, res) => {
+  const { name, email, password, role } = req.body;
+  csvWriter.writeRecords([{ name, email, password, role }])
+    .then(() => res.send('Signup successful!'))
+    .catch(err => res.status(500).send('Error saving data'));
+});
+
+app.listen(port, () => console.log(`App running on http://localhost:${port}`));
