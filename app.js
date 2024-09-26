@@ -28,7 +28,7 @@ const csvWriter = createCsvWriter({
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'views', 'index.html')));
 app.get('/student-login', (req, res) => res.sendFile(path.join(__dirname, 'views', 'student-login.html')));
 app.get('/teacher-login', (req, res) => res.sendFile(path.join(__dirname, 'views', 'teacher-login.html')));
-app.get('/signup', (req, res) => res.sendFile(path.join(__dirname, 'views', 'signup.html')));
+app.get('/signup', (req, res) => res.sendFile(path.join(__dirname, 'views', 'sign up.html')));
 
 app.post('/signup-process', (req, res) => {
   const { name, email, password, role } = req.body;
