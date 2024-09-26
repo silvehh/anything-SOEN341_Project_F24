@@ -12,6 +12,8 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/routes', express.static(path.join(__dirname, 'routes')));
+
 // Serve the index.ejs file on the root route
 app.get('/', (req, res) => {
     res.render('index'); // Renders views/index.ejs
