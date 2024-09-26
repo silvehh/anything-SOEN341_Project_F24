@@ -17,6 +17,18 @@ app.get('/', (req, res) => {
     res.render('index'); // Renders views/index.ejs
 });
 
+app.get('/signup', (req, res) => {
+  res.render('signup');  // Will render 'signup.ejs'
+});
+
+app.get('/student-login', (req, res) => {
+  res.render('student-login');
+});
+
+app.get('/teacher-login', (req, res) => {
+  res.render('teacher-login');
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
