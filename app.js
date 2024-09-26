@@ -1,33 +1,21 @@
 const express = require('express');
 const path = require('path');
-const bodyParser = require('body-parser');
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
-
+// Set the view engine to EJS
 app.set('view engine', 'ejs');
+
+// Set the views directory
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(express.static('public'));
-
+// Serve the index.ejs file on the root route
 app.get('/', (req, res) => {
-  res.render('index');
+    res.render('index'); // Renders views/index.ejs
 });
 
-app.get('/signup', (req, res) => {
-  res.render('signup');
-});
-
-app.get('/student-login', (req, res) => {
-  res.render('student-login');
-});
-
-app.get('/teacher-login', (req, res) => {
-  res.render('teacher-login');
-});
-
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
