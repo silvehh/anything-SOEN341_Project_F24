@@ -1,3 +1,8 @@
-# For programmers:
-### This is the server infrastructure
-### **Note: There is never a reason to merge this branch with main, it should be done rarely**
+# SOEN341 - [WebApp](https://assessything.up.railway.app/)
+## Group: Anything
+### SeyedParsa Hejazi (40247098)
+### Amro Atique (40272828)
+### Parsa Rashidi (40279021)
+### Han Lee (40265531)
+### Frankies Vat (40218933)
+### Ferhaan Hawas (40224777)
