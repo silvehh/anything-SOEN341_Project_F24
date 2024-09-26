@@ -1,10 +1,6 @@
-function redirectToLogin(userType) {
-    if (userType === 'student') {
-        window.location.href = 'student-login';
-    } else if (userType === 'teacher') {
-        window.location.href = 'teacher-login';
-    }
-}
+function redirectToLogin(role) {
+            window.location.href = `/${role}-login`; // This will redirect to '/teacher-login' or '/student-login'
+        }
 
 document.addEventListener('mousemove', function (e) {
     const container = document.querySelector('.container');
