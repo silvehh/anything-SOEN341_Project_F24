@@ -1,8 +1,8 @@
 function redirectToLogin(userType) {
     if (userType === 'student') {
-        window.location.href = 'student-login.html';
+        window.location.href = 'student-login';
     } else if (userType === 'teacher') {
-        window.location.href = 'teacher-login.html';
+        window.location.href = 'teacher-login';
     }
 }
 
