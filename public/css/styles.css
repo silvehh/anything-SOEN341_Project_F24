@@ -60,7 +60,7 @@ input[type="text"], input[type="email"], input[type="password"] {
 }
 
 body.login-selection {
-    background-image: url('images/st.webp');
+    background-image: url('public/images/st.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -68,7 +68,7 @@ body.login-selection {
 }
 
 body.student-login {
-    background-image: url('images/sts.webp');
+    background-image: url('public/images/sts.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -76,7 +76,7 @@ body.student-login {
 }
 
 body.teacher-login {
-    background-image: url('images/tts.webp');
+    background-image: url('public/images/tts.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
