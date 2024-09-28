@@ -1,8 +1,14 @@
-# SOEN341 - [WebApp](https://assessything.up.railway.app/)
-## Group: Anything
-### SeyedParsa Hejazi (40247098) - @Pogut (previously @prshjz)
-### Amro Atique (40272828) - @silvehh
-### Parsa Rashidi (40279021) - @parsarashidi81
-### Han Lee (40265531) - @hanlee53
-### Frankies Vat (40218933) - @Frankies1002
-### Ferhaan Hawas (40224777) - @FerIron
+# Assessything
+
+## Overview
+
+**Assessything** is a peer assessment platform designed for students and teachers. Students can assess their peers, while teachers have access to the assessment results. The platform aims to simplify peer evaluations, making them straightforward and accessible in an educational setting.
+
+## Features
+
+- **Student Login and Assessment**: Students can easily log in and evaluate their peers directly on the platform.
+- **Teacher Access**: Teachers can log in to view assessment results, helping them gain insights into student performance and contributions.
+- **Role-Based Login System**: Dedicated login pages for students and teachers provide tailored functionality for each role.
+- **Google OAuth Login**: Users can conveniently log in using their Google accounts.
+
+
