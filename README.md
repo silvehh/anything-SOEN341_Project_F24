@@ -4,7 +4,7 @@
 
 **Assessything** is a peer assessment platform designed for students and teachers. Students can assess their peers, while teachers have access to the assessment results. The platform aims to simplify peer evaluations, making them straightforward and accessible in an educational setting. You can visit the webbapp [here](https://assessything.up.railway.app).
 
-## Features
+## Features (Until now)
 
 - **Student Login and Assessment**: Students can easily log in and evaluate their peers directly on the platform.
 - **Teacher Access**: Teachers can log in to view assessment results, helping them gain insights into student performance and contributions.
