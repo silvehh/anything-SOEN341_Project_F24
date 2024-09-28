@@ -1,4 +1,4 @@
-# Assessything [WebApp](assessything.up.railway.app)
+# Assessything [WebApp](https://assessything.up.railway.app)
 
 ## Overview
 
