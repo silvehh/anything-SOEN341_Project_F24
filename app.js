@@ -1,10 +1,12 @@
 const express = require('express');
 const path = require('path');
-const { Pool } = require('pg'); // PostgreSQL client
-require('dotenv').config(); // Load environment variables
+const { Pool } = require('pg'); 
+require('dotenv').config(); 
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080; // Use Railway’s dynamic port
+
+console.log('PORT from environment:', process.env.PORT); // Debugging
 
 // PostgreSQL connection pool
 const pool = new Pool({
