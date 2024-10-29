@@ -4,7 +4,7 @@ const { Pool } = require('pg'); // PostgreSQL client
 require('dotenv').config(); // Load environment variables
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 // PostgreSQL connection pool
 const pool = new Pool({
