@@ -6,12 +6,22 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 8080; // Use Railway’s dynamic port
 
-console.log('PORT from environment:', process.env.PORT); // Debugging
+console.log('PORT from environment:', PORT); // Debugging port usage
 
 // PostgreSQL connection pool
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false },
+});
+
+// Check database connection at startup
+pool.connect((err) => {
+  if (err) {
+    console.error('Error connecting to the database:', err.stack);
+    process.exit(1); // Exit the process if DB connection fails
+  } else {
+    console.log('Connected to the database successfully.');
+  }
 });
 
 // Set view engine and middleware
@@ -27,6 +37,11 @@ app.use(express.json());
 // Home route
 app.get('/', (req, res) => res.render('index'));
 
+// Health check route
+app.get('/health', (req, res) => {
+  res.status(200).send('App is healthy!');
+});
+
 // POST route to submit a rating
 app.post('/submit-rating', async (req, res) => {
   const { evaluator_id, evaluatee_id, team_name, cooperation, conceptual, practical, work_ethic, comments } = req.body;
@@ -38,9 +53,26 @@ app.post('/submit-rating', async (req, res) => {
     );
     res.send('Rating submitted successfully!');
   } catch (error) {
-    console.error(error);
+    console.error('Error submitting rating:', error);
     res.status(500).send('Error submitting rating');
   }
+});
+
+// Handle graceful shutdowns to prevent crashes
+process.on('SIGTERM', () => {
+  console.log('Process received SIGTERM, shutting down gracefully.');
+  pool.end(() => {
+    console.log('Database pool closed.');
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  console.log('Process received SIGINT, shutting down gracefully.');
+  pool.end(() => {
+    console.log('Database pool closed.');
+    process.exit(0);
+  });
 });
 
 // Start the server
