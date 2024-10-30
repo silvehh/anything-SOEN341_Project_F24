@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Grouping Page</title>
+    <link rel="stylesheet" href="../public/css/teacher-initial.css">
+</head>
+<body>
+    <h1>Student List</h1>
+    <div id="student-list">
+        <!-- List of students to group -->
+    </div>
+
+    <button id="create-team">Create Team</button>
+
+    <h2>Teams</h2>
+    <div id="team-list">
+        <!-- Created teams will appear here -->
+    </div>
+
+    <!-- Popup for displaying team members -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span id="close-popup" class="close-button">&times;</span>
+            <h3>Team Members</h3>
+            <div id="team-members"></div>
+        </div>
+    </div>
+
+    <script src="teacherGrouping.js"></script>
+</body>
+</html>
