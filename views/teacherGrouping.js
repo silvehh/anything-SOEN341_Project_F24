@@ -67,8 +67,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Close the modal
-    closeModal.onclick = function() {
-        teamModal.style.display = "none";
+   closeModal.onclick = function() {
+       teamModal.style.display = "none";
     }
 
     // Close modal when clicking outside
