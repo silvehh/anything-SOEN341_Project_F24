@@ -15,26 +15,37 @@ app.use('/routes', express.static(path.join(__dirname, 'routes')));
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-    res.render('index');
+  const signup = req.query.signup;
+  res.render('index', { signup });
 });
 
 app.get('/signup', (req, res) => {
-  res.render('signup');
+  const error = req.query.error;
+  res.render('signup', { error });
 });
 
 app.post('/signup-process', (req, res) => {
   const { name, email, password, role } = req.body;
   const filePath = path.join(__dirname, 'data', role === 'teacher' ? 'teachers.csv' : 'students.csv');
+  const userData = `${name},${email},${password}\n`;
 
-  const data = `${name},${email},${password}\n`;
-
-  fs.appendFile(filePath, data, (err) => {
-      if (err) {
-          console.error('Error writing to CSV file', err);
+  fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err && err.code !== 'ENOENT') {
+          console.error('Error reading CSV file', err);
           return res.status(500).send('Error signing up, please try again.');
       }
-      console.log(`${role} signed up successfully`);
-      res.send(`${role.charAt(0).toUpperCase() + role.slice(1)} signed up successfully!`);
+
+      if (data && data.includes(userData.trim())) {
+          return res.redirect('/signup?error=exists');
+      }
+
+      fs.appendFile(filePath, userData, (err) => {
+          if (err) {
+              console.error('Error writing to CSV file', err);
+              return res.status(500).send('Error signing up, please try again.');
+          }
+          res.redirect('/?signup=success');
+      });
   });
 });
 

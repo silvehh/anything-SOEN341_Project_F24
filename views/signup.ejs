@@ -21,5 +21,15 @@
             <button class="btn" type="submit">Sign Up</button>
         </form>
     </div>
+
+    <% if (error === 'exists') { %>
+        <div id="error-popup" class="popup-error">This user already exists. Please try again!</div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const errorPopup = document.getElementById('error-popup');
+                setTimeout(() => errorPopup.classList.add('hide'), 3000);
+            });
+        </script>
+    <% } %>
 </body>
 </html>
