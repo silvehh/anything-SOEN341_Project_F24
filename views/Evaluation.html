@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .next-button {
+            background-color: #59076b; /* Purple color */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .next-button:hover {
+            background-color: #5e35b1; /* Darker purple on hover */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Evaluate your teammate!</h1>
+    <form action="/submit-feedback" method="post">
+        <label for="rating">Rate your teammates cooperation out of 5:</label>
+        <input type="number" id="rating" name="rating" min="1" max="5" required>
+        <button class="next-button" type="submit">Next</button>
+    </form>
+
+</body>
+</html>
