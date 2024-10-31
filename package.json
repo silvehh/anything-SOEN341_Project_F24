@@ -13,7 +13,11 @@
     "pg": "^8.13.1"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "jest"
   },
-  "keywords": []
+  "keywords": [],
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
