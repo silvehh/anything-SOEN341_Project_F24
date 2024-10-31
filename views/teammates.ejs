@@ -2,97 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editable List of Names</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ccc;
-        }
-        .name-item {
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .name-item:hover {
-            background-color: #f0f8ff;
-        }
-        .evaluate-box {
-            display: none;
-            padding: 5px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-top: 5px;
-            cursor: pointer;
-            width: fit-content;
-        }
-        .evaluate-box:hover {
-            background-color: #e0e0e0;
-        }
-    </style>
+    <title>Select Teammate to Evaluate</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-
     <div class="container">
         <h1>Welcome, <%= user.name %>!</h1>
         <p>Your email: <%= user.email %></p>
-        <a href="/logout">Logout</a>
+        <a href="/logout" class="btn">Logout</a>
     </div>
 
-<h2></h2>
+    <h2>Your Teammates:</h2>
 
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-        </tr>
-    </thead>
-    <tbody id="nameList">
-        <tr onclick="showEvaluateBox(this)">
-            <td class="name-item">Alice</td>
-        </tr>
-        <tr onclick="showEvaluateBox(this)">
-            <td class="name-item">Bob</td>
-        </tr>
-        <tr onclick="showEvaluateBox(this)">
-            <td class="name-item">Charlie</td>
-        </tr>
-        <tr onclick="showEvaluateBox(this)">
-            <td class="name-item">Diana</td>
-        </tr>
-    </tbody>
-</table>
-
-<script>
-    function showEvaluateBox(element) {
-        // Remove any existing evaluate boxes
-        document.querySelectorAll('.evaluate-box').forEach(box => box.remove());
-
-        // Create a new evaluate box
-        const evaluateBox = document.createElement("div");
-        evaluateBox.className = "evaluate-box";
-        evaluateBox.innerText = "Evaluate";
-
-        // Set an action for clicking "Evaluate"
-        evaluateBox.onclick = function () {
-            // Redirect to page 2 when "Evaluate" is clicked
-            window.location.href = 'Evaluation.html';
-        };
-
-        // Position the evaluate box below the clicked name
-        element.insertAdjacentElement("afterend", evaluateBox);
-        evaluateBox.style.display = "block";
-    }
-</script>
-
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% teammates.forEach(function(teammate) { %>
+                <% if (teammate.email !== user.email) { %>
+                    <tr>
+                        <td>
+                            <%= teammate.name %>
+                            <a href="/evaluate?evaluateeEmail=<%= teammate.email %>" class="btn">Evaluate</a>
+                        </td>
+                    </tr>
+                <% } %>
+            <% }); %>
+        </tbody>
+    </table>
 </body>
 </html>
