@@ -9,6 +9,17 @@
     <script src="/routes/script.js"></script>
 </head>
 
+<% if (error === 'invalid_credentials') { %>
+    <div id="error-popup" class="popup-error">Invalid credentials, please try again!</div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const errorPopup = document.getElementById('error-popup');
+            errorPopup.style.display = 'block';
+            setTimeout(() => errorPopup.classList.add('hide'), 3000);
+        });
+    </script>
+<% } %>
+
 <body class="signup">
     <div class="container">
         <h1>Teacher Login</h1>
@@ -19,17 +30,6 @@
         </form>
         <br>
         <a href="/signup" class="btn">Sign Up</a>
-
-        <% if (error === 'invalid_credentials') { %>
-            <div id="error-popup" class="popup-error">Invalid credentials, please try again!</div>
-            <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    const errorPopup = document.getElementById('error-popup');
-                    errorPopup.style.display = 'block';
-                    setTimeout(() => errorPopup.classList.add('hide'), 3000);
-                });
-            </script>
-        <% } %>
 
     </div>
 
