@@ -10,6 +10,10 @@
 - **Teacher Access**: Teachers can log in to view assessment results, helping them gain insights into student performance and contributions.
 - **Role-Based Login System**: Dedicated login pages for students and teachers provide tailored functionality for each role.
 - **Google OAuth Login**: Users can conveniently log in using their Google accounts.
+- **Student page**: When students log in to their pages, they see a list that includes the name of their teammates. By clicking on the names, they have the option to evaluate their teammates.
+- **Evaluation page**: Divided into two pages. The first page is the evaluation of the teammates cooperation from 0 to 5. The second page is the evaluation of the teammates contributions in a project.
+- **Confirmation page**: A page screnning a message that your evaluation has been submitted.
+- **Teacher page**: Once the teacher log in to his/her page he/she can create team, and assign students to specific groups.
 
 
 ## Tech Stack
