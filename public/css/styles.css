@@ -127,3 +127,70 @@ body.teacher-login {
 .popup-error.hide {
     opacity: 0;
 }
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: rgba(77, 77, 77, 0.95);
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    color: #E0E0E0;
+}
+
+th {
+    background-color: #4F8A8B;
+}
+
+tr:hover {
+    background-color: #575757;
+}
+
+.dimension {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.dimension label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.dimension textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    resize: vertical;
+}
+
+.group-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px;
+}
+
+.group {
+    background-color: rgba(77, 77, 77, 0.95);
+    margin: 10px;
+    padding: 15px;
+    border-radius: 10px;
+    width: 200px;
+    text-align: center;
+}
+
+.group h3 {
+    margin-bottom: 10px;
+}
+
+.group .btn {
+    width: 100%;
+}
