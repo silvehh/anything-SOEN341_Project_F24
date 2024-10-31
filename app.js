@@ -6,6 +6,9 @@ const bcrypt = require('bcrypt');
 const csv = require('fast-csv');
 const bodyParser = require('body-parser');
 
+const bcrypt = require('bcryptjs');
+
+
 const app = express();
 const PORT = 3000;
 
