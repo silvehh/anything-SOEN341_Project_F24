@@ -13,5 +13,5 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: hello step
-      - run: echo "hello World test"
+      - name: hello step
+        run: echo "hello World test"
