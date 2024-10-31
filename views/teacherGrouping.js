@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
         reviewTableDiv.appendChild(table);
     }
 
-    // Render available students in modal for adding to the team
+   
     function renderAdditionalStudentsList() {
         additionalStudentsDiv.innerHTML = ""; // Clear additional students list
 
@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
         renderTeamMembers(currentTeam); // Refresh the team members display
     }
 
-    // Render team members
+    
     function renderTeamMembers(team) {
         teamMembersDiv.innerHTML = ""; // Clear previous member list
 
@@ -129,13 +129,13 @@ document.addEventListener("DOMContentLoaded", function () {
             const student = studentData.find(s => s.id === id);
             if (student) {
                 const tempMemberDiv = document.createElement("div");
-                tempMemberDiv.innerHTML = `<span>${student.name} (added temporarily)</span>`;
+                tempMemberDiv.innerHTML = `<span>${student.name} (selected)</span>`;
                 teamMembersDiv.appendChild(tempMemberDiv);
             }
         });
     }
 
-    // Create a member div with remove functionality
+    
     function createMemberDiv(member) {
         const memberDiv = document.createElement("div");
         memberDiv.innerHTML = `
@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return memberDiv;
     }
 
-    // Add temporarily selected students to a team and remove them from main student list
+    // Add selected students to a team and remove them from main student list
     function commitTemporarySelectionsToTeam() {
         temporarySelections.forEach(id => {
             const student = studentData.find(s => s.id === id);
@@ -162,8 +162,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const memberIndex = currentTeam.members.findIndex(member => member.id === memberId);
         if (memberIndex !== -1) {
             const removedMember = currentTeam.members.splice(memberIndex, 1)[0]; // Remove member from team
-            studentData.push(removedMember); // Return student to main list
-            renderTeamMembers(currentTeam); // Refresh modal to reflect update
+            studentData.push(removedMember); 
+            renderTeamMembers(currentTeam); 
         }
     }
 
@@ -178,13 +178,13 @@ document.addEventListener("DOMContentLoaded", function () {
         // Remove the corresponding team button and review button from the UI
         const teamButton = teamList.querySelector(`[data-team-id="${team.id}"]`);
         if (teamButton) {
-            teamButton.parentElement.remove(); // Remove the parent div containing both buttons
+            teamButton.parentElement.remove(); 
         }
         
         // Clear the review table if it exists
-        reviewTableDiv.innerHTML = ""; // Clear any existing review table
+        reviewTableDiv.innerHTML = ""; 
         
-        // Close modal after deletion
+        
         teamModal.style.display = "none"; 
     }
 
@@ -196,20 +196,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 currentTeam.name = newName; // Update team's name in data
                 teamList.querySelector(`[data-team-id="${currentTeam.id}"]`).textContent = newName; // Reflect name change on button
             }
-            commitTemporarySelectionsToTeam(); // Commit changes when saving
+            commitTemporarySelectionsToTeam(); 
             teamModal.style.display = "none"; // Close the modal
         }
     };
 
     // Close the modal when clicking the close icon
     closeModal.onclick = function () {
-        teamModal.style.display = "none"; // Close modal without saving
+        teamModal.style.display = "none"; 
     };
 
     // Close modal if clicking outside of it
     window.onclick = function (event) {
         if (event.target === teamModal) {
-            teamModal.style.display = "none"; // Close modal without saving
+            teamModal.style.display = "none"; 
         }
     };
 });
