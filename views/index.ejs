@@ -16,6 +16,15 @@
         <button class="btn" onclick="redirectToLogin('teacher')">Teacher</button>
     </div>
 
+    <% if (signup === 'success') { %>
+    <div id="popup" class="popup">Sign up successfully!</div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const popup = document.getElementById('popup');
+            setTimeout(() => popup.style.display = 'none', 3000);
+        });
+    </script>
+    <% } %>
 </body>
 
 </html>
