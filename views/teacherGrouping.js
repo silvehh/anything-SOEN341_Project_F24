@@ -169,10 +169,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Delete a team and return its members to main student list
     function deleteTeam(team) {
-        team.members.forEach(member => studentData.push(member)); // Return members to main list
-        teams = teams.filter(t => t.id !== team.id); // Remove team from teams array
-        teamList.querySelector(`[data-team-id="${team.id}"]`).remove(); // Remove team button from UI
-        teamModal.style.display = "none"; // Close modal after deletion
+        // Return members to the main list
+        team.members.forEach(member => studentData.push(member)); 
+        
+        // Remove team from teams array
+        teams = teams.filter(t => t.id !== team.id); 
+        
+        // Remove the corresponding team button and review button from the UI
+        const teamButton = teamList.querySelector(`[data-team-id="${team.id}"]`);
+        if (teamButton) {
+            teamButton.parentElement.remove(); // Remove the parent div containing both buttons
+        }
+        
+        // Close modal after deletion
+        teamModal.style.display = "none"; 
     }
 
     // Save edited team name from input field and close the modal
