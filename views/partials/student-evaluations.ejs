@@ -1,0 +1,28 @@
+<% if (evaluations.length === 0) { %>
+    <p>No evaluations found for this student.</p>
+  <% } else { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Evaluator Email</th>
+          <th>Rating</th>
+          <th>Q1 Answer</th>
+          <th>Q2 Answer</th>
+          <th>Q3 Answer</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% evaluations.forEach(function(evaluation) { %>
+          <tr>
+            <td><%= evaluation.EvaluatorEmail %></td>
+            <td><%= evaluation.Rating %></td>
+            <td><%= evaluation.Q1Answer %></td>
+            <td><%= evaluation.Q2Answer %></td>
+            <td><%= evaluation.Q3Answer %></td>
+            <td><%= new Date(evaluation.Timestamp).toLocaleString() %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } %>

@@ -48,22 +48,26 @@ function readCSV(filePath) {
 
 function appendToCSV(filePath, data, headers) {
   return new Promise((resolve, reject) => {
-    let fileExists = fs.existsSync(filePath);
     let writeHeaders = false;
 
-    if (fileExists) {
-      const stats = fs.statSync(filePath);
-      if (stats.size === 0) {
-        writeHeaders = true; // File is empty
-      }
-    } else {
-      writeHeaders = true; // File doesn't exist
+    if (!fs.existsSync(filePath) || fs.statSync(filePath).size === 0) {
+      writeHeaders = true; // File doesn't exist or is empty
     }
 
     const ws = fs.createWriteStream(filePath, { flags: 'a' });
-    const csvStream = csv.format({ headers: headers, writeHeaders: writeHeaders });
 
-    csvStream.pipe(ws).on('finish', resolve).on('error', reject);
+    const csvStream = csv.format({
+      headers: writeHeaders ? headers : false,
+      includeEndRowDelimiter: true,
+    });
+
+    csvStream
+      .pipe(ws)
+      .on('finish', resolve)
+      .on('error', error => {
+        console.error('Error writing to CSV file:', error);
+        reject(error);
+      });
 
     csvStream.write(data);
     csvStream.end();
@@ -102,7 +106,7 @@ app.post('/signup-process', async (req, res) => {
 
     res.redirect('/?signup=success');
   } catch (error) {
-    console.error('Error during signup:', error);
+    console.error('Error during signup:', error.stack);
     res.status(500).send('Error signing up, please try again.');
   }
 });
@@ -135,7 +139,7 @@ app.post('/student-login', async (req, res) => {
 
     res.redirect('/student-login?error=invalid_credentials');
   } catch (error) {
-    console.error('Error during student login:', error);
+    console.error('Error during student login:', error.stack);
     res.status(500).send('An error occurred, please try again.');
   }
 });
@@ -158,7 +162,7 @@ app.post('/teacher-login', async (req, res) => {
 
     res.redirect('/teacher-login?error=invalid_credentials');
   } catch (error) {
-    console.error('Error during teacher login:', error);
+    console.error('Error during teacher login:', error.stack);
     res.status(500).send('An error occurred, please try again.');
   }
 });
@@ -203,7 +207,7 @@ app.get('/teammates', requireStudentLogin, async (req, res) => {
 
     res.render('teammates', { user: req.session.student, teammates });
   } catch (error) {
-    console.error('Error fetching teammates:', error);
+    console.error('Error fetching teammates:', error.stack);
     res.status(500).send('An error occurred, please try again.');
   }
 });
@@ -221,7 +225,7 @@ app.get('/evaluate', requireStudentLogin, async (req, res) => {
 
     res.render('Evaluation', { evaluatee });
   } catch (error) {
-    console.error('Error during evaluation:', error);
+    console.error('Error during evaluation:', error.stack);
     res.status(500).send('An error occurred, please try again.');
   }
 });
@@ -254,7 +258,7 @@ app.get('/student_Dimen_As', requireStudentLogin, async (req, res) => {
 
     res.render('student_Dimen_As', { evaluatee });
   } catch (error) {
-    console.error('Error during dimension assessment:', error);
+    console.error('Error during dimension assessment:', error.stack);
     res.status(500).send('An error occurred, please try again.');
   }
 });
@@ -312,7 +316,7 @@ app.post('/submit-dimensions', requireStudentLogin, async (req, res) => {
     delete req.session.evaluation;
     res.redirect('/Confirmation_Page');
   } catch (error) {
-    console.error('Error submitting evaluation:', error);
+    console.error('Error submitting evaluation:', error.stack);
     res.status(500).send('An error occurred, please try again.');
   }
 });
@@ -326,11 +330,70 @@ app.get('/teacher-dashboard', requireTeacherLogin, async (req, res) => {
   try {
     const teacherEmail = req.session.teacher.email;
     const groups = await readCSV(path.join(__dirname, 'data', 'Groups.csv'));
+    const groupMembers = await readCSV(path.join(__dirname, 'data', 'GroupMembers.csv'));
+    const students = await readCSV(path.join(__dirname, 'data', 'students.csv'));
+    const evaluations = await readCSV(path.join(__dirname, 'data', 'Evaluations.csv'));
+
     const teacherGroups = groups.filter(group => group.TeacherEmail === teacherEmail);
 
-    res.render('teacher-dashboard', { teacher: req.session.teacher, groups: teacherGroups });
+    // For each group, get the students and their evaluations
+    const groupsWithDetails = teacherGroups.map(group => {
+      const members = groupMembers.filter(member => member.GroupID === group.GroupID);
+      const studentsInGroup = members.map(member => {
+        const student = students.find(s => s.email === member.StudentEmail);
+        if (student) {
+          // Get evaluations for this student in this group
+          const studentEvaluations = evaluations.filter(evaluation =>
+            evaluation.EvaluateeEmail === student.email && evaluation.GroupID === group.GroupID
+          );
+
+          // Calculate average rating
+          const ratings = studentEvaluations.map(evaluation => parseFloat(evaluation.Rating));
+          const averageRating =
+            ratings.length > 0 ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(2) : 'N/A';
+
+          return {
+            ...student,
+            evaluations: studentEvaluations,
+            averageRating: averageRating,
+          };
+        }
+      }).filter(Boolean); // Remove undefined entries
+
+      return {
+        ...group,
+        students: studentsInGroup,
+      };
+    });
+
+    res.render('teacher-dashboard', { teacher: req.session.teacher, groups: groupsWithDetails });
   } catch (error) {
-    console.error('Error fetching teacher dashboard:', error);
+    console.error('Error fetching teacher dashboard:', error.stack);
+    res.status(500).send('An error occurred, please try again.');
+  }
+});
+
+// Route to fetch student evaluations via AJAX
+app.get('/student-evaluations', requireTeacherLogin, async (req, res) => {
+  const { groupID, studentEmail } = req.query;
+
+  try {
+    const evaluations = await readCSV(path.join(__dirname, 'data', 'Evaluations.csv'));
+    const students = await readCSV(path.join(__dirname, 'data', 'students.csv'));
+
+    const student = students.find(s => s.email === studentEmail);
+
+    if (!student) {
+      return res.status(404).send('Student not found.');
+    }
+
+    const studentEvaluations = evaluations.filter(
+      evaluation => evaluation.EvaluateeEmail === studentEmail && evaluation.GroupID === groupID
+    );
+
+    res.render('partials/student-evaluations', { evaluations: studentEvaluations });
+  } catch (error) {
+    console.error('Error fetching student evaluations:', error.stack);
     res.status(500).send('An error occurred, please try again.');
   }
 });
@@ -354,16 +417,17 @@ app.post('/create-group', requireTeacherLogin, async (req, res) => {
 
     res.redirect('/teacher-dashboard');
   } catch (error) {
-    console.error('Error creating group:', error);
+    console.error('Error creating group:', error.stack);
     res.status(500).send('An error occurred, please try again.');
   }
 });
 
 app.post('/assign-students', requireTeacherLogin, async (req, res) => {
-  const { groupID, studentEmails } = req.body; // studentEmails should be an array of emails
+  const { groupID, studentEmails } = req.body; // studentEmails is a comma-separated string
 
   try {
-    const entries = studentEmails.map(email => ({ GroupID: groupID, StudentEmail: email }));
+    const emailsArray = studentEmails.split(',').map(email => email.trim());
+    const entries = emailsArray.map(email => ({ GroupID: groupID, StudentEmail: email }));
 
     const headers = ['GroupID', 'StudentEmail'];
 
@@ -375,7 +439,7 @@ app.post('/assign-students', requireTeacherLogin, async (req, res) => {
 
     res.redirect('/teacher-dashboard');
   } catch (error) {
-    console.error('Error assigning students to group:', error);
+    console.error('Error assigning students to group:', error.stack);
     res.status(500).send('An error occurred, please try again.');
   }
 });
