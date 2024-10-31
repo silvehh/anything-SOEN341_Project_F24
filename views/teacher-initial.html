@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -31,12 +30,56 @@
         button {
             margin-top: 10px;
             cursor: pointer;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF; /* Bootstrap Primary Color */
+            color: white;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+            transform: scale(1.05);
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        .team-button {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #e7f3fe; /* Light blue background for team buttons */
+            color: #31708f; /* Dark blue text */
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .team-button:hover {
+            background-color: #d9edf7; /* Lighter blue on hover */
+            transform: scale(1.02);
+        }
+
+        #logout-button {
+            background-color: #dc3545; /* Bootstrap Danger Color */
+            margin-top: 20px;
+        }
+
+        #logout-button:hover {
+            background-color: #c82333; /* Darker shade on hover */
         }
     </style>
 </head>
 <body>
     <header>
         <h1>Teams</h1>
+        <button id="logout-button" onclick="window.location.href='index.ejs'">Logout</button>
     </header>
     <main>
         <div id="team-list">
@@ -61,7 +104,6 @@
             </div>
         </div>
     </div>
-    <div id="team-list"></div>
     <div id="review-table"></div>
     <script src="teacherGrouping.js"></script>
 </body>
