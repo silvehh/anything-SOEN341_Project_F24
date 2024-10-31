@@ -1,31 +1,153 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
+const session = require('express-session');
 
 const app = express();
 const PORT = 3000;
 
 app.set('view engine', 'ejs');
-
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/routes', express.static(path.join(__dirname, 'routes')));
+app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  session({
+      secret: 'veeeerrrryyyyyyyy_secure_key',
+      resave: false,
+      saveUninitialized: true,
+      cookie: { secure: false },
+  })
+);
 
 app.get('/', (req, res) => {
-    res.render('index');
+  const signup = req.query.signup;
+  res.render('index', { signup });
 });
 
 app.get('/signup', (req, res) => {
-  res.render('signup');
+  const error = req.query.error;
+  res.render('signup', { error });
+});
+
+app.post('/signup-process', (req, res) => {
+  const { name, email, password, role } = req.body;
+  const filePath = path.join(__dirname, 'data', role === 'teacher' ? 'teachers.csv' : 'students.csv');
+  const userData = `${name},${email},${password}\n`;
+
+  fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err && err.code !== 'ENOENT') {
+          console.error('Error reading CSV file', err);
+          return res.status(500).send('Error signing up, please try again.');
+      }
+
+      if (data && data.includes(userData.trim())) {
+          return res.redirect('/signup?error=exists');
+      }
+
+      fs.appendFile(filePath, userData, (err) => {
+          if (err) {
+              console.error('Error writing to CSV file', err);
+              return res.status(500).send('Error signing up, please try again.');
+          }
+          res.redirect('/?signup=success');
+      });
+  });
 });
 
 app.get('/student-login', (req, res) => {
-  res.render('student-login');
+  const error = req.query.error;
+  res.render('student-login', { error });
 });
 
 app.get('/teacher-login', (req, res) => {
-  res.render('teacher-login');
+  const error = req.query.error;
+  res.render('teacher-login', { error });
+});
+
+app.post('/teacher-login', (req, res) => {
+    const { email, password } = req.body;
+    const filePath = path.join(__dirname, 'data', 'teachers.csv');
+
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading CSV file', err);
+            return res.status(500).send('An error occurred, please try again.');
+        }
+
+        const lines = data.split('\n');
+        const found = lines.some(line => {
+            const [name, storedEmail, storedPassword] = line.split(',');
+
+            if (storedEmail === email && storedPassword.trim() === password) {
+                req.session.teacher = { name, email };
+                return true;
+            }
+            return false;
+        });
+
+        if (found) {
+            res.redirect('/teacher-initial');
+        } else {
+            res.redirect('/teacher-login?error=invalid_credentials');
+        }
+    });
+});
+
+app.post('/student-login', (req, res) => {
+  const { email, password } = req.body;
+  const filePath = path.join(__dirname, 'data', 'students.csv');
+
+  fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err) {
+          console.error('Error reading CSV file', err);
+          return res.status(500).send('An error occurred, please try again.');
+      }
+
+      const lines = data.split('\n');
+      const found = lines.some(line => {
+          const [name, storedEmail, storedPassword] = line.split(',');
+
+          if (storedEmail === email && storedPassword.trim() === password) {
+              req.session.student = { name, email };
+              return true;
+          }
+          return false;
+      });
+
+      if (found) {
+          res.redirect('/teammates');
+      } else {
+          res.redirect('/student-login?error=invalid_credentials');
+      }
+  });
+});
+
+app.get('/teacher-initial', (req, res) => {
+  if (!req.session.teacher) {
+      return res.redirect('/teacher-login?error=unauthorized');
+  }
+
+  res.render('teacher-initial', { teacher: req.session.teacher });
+});
+
+app.get('/teammates', (req, res) => {
+  if (!req.session.student) {
+      return res.redirect('/student-login');
+  }
+  
+  res.render('teammates', { user: req.session.student });
+});
+
+app.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+      if (err) {
+          return res.status(500).send('Failed to log out.');
+      }
+      res.redirect('/');
+  });
 });
 
 app.listen(PORT, () => {

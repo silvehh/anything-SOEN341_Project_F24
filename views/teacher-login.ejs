@@ -9,11 +9,22 @@
     <script src="/routes/script.js"></script>
 </head>
 
-<body class="teacher-login">
-    <div class="login-container">
+<% if (error === 'invalid_credentials') { %>
+    <div id="error-popup" class="popup-error">Invalid credentials, please try again!</div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const errorPopup = document.getElementById('error-popup');
+            errorPopup.style.display = 'block';
+            setTimeout(() => errorPopup.classList.add('hide'), 3000);
+        });
+    </script>
+<% } %>
+
+<body class="signup">
+    <div class="container">
         <h1>Teacher Login</h1>
-        <form action="/teacher-dashboard" method="POST">
-            <input type="text" name="teacher_id" placeholder="Teacher ID" required><br>
+        <form action="/teacher-login" method="POST">
+            <input type="text" name="email" placeholder="Email" required><br>
             <input type="password" name="password" placeholder="Password" required><br>
             <button class="btn" type="submit">Login</button>
         </form>
