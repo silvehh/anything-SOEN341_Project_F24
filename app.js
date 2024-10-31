@@ -150,6 +150,8 @@ app.get('/logout', (req, res) => {
   });
 });
 
+export default app;
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
