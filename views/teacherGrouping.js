@@ -181,6 +181,9 @@ document.addEventListener("DOMContentLoaded", function () {
             teamButton.parentElement.remove(); // Remove the parent div containing both buttons
         }
         
+        // Clear the review table if it exists
+        reviewTableDiv.innerHTML = ""; // Clear any existing review table
+        
         // Close modal after deletion
         teamModal.style.display = "none"; 
     }
