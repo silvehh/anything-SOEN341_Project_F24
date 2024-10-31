@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Login</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <script src="/routes/script.js"></script>
 </head>
-
 <body class="student-login">
-    <div class="login-container">
+    <% if (typeof error !== 'undefined' && error === 'invalid_credentials') { %>
+        <div id="error-popup" class="popup-error">Invalid credentials, please try again!</div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const errorPopup = document.getElementById('error-popup');
+                setTimeout(() => errorPopup.classList.add('hide'), 3000);
+            });
+        </script>
+    <% } %>
+
+    <div class="container">
         <h1>Student Login</h1>
-        <form action="/student-dashboard" method="POST">
-            <input type="text" name="student_id" placeholder="Student ID" required><br>
+        <form action="/student-login" method="POST">
+            <input type="email" name="email" placeholder="Email" required><br>
             <input type="password" name="password" placeholder="Password" required><br>
             <button class="btn" type="submit">Login</button>
         </form>
         <br>
         <a href="/signup" class="btn">Sign Up</a>
-
-        <br> </br>
-
-        <br>
-        <button class="gmail-btn" onclick="loginWithGoogle()">Login with Gmail</button>
     </div>
-
-    <script src="script.js"></script>
 </body>
-
 </html>

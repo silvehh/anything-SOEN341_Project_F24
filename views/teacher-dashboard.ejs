@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <!-- Include any additional CSS or JS files -->
+    <style>
+        /* Additional styles for modals and group lists */
+        .group-item {
+            background-color: rgba(77, 77, 77, 0.95);
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .student-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .student-item {
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+        }
+
+        .modal-content {
+            background-color: rgba(77, 77, 77, 0.95);
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            color: #E0E0E0;
+        }
+
+        .close {
+            color: #E0E0E0;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #FF9F1C;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button.btn {
+            margin-top: 15px;
+        }
+
+        .student-item span {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, <%= teacher.name %>!</h1>
+        <p>Email: <%= teacher.email %></p>
+        <a href="/logout" class="btn">Logout</a>
+    </div>
+
+    <div class="container">
+        <h2>Your Groups</h2>
+        <button class="btn" onclick="showCreateGroupModal()">Create Group</button>
+
+        <% if (groups.length === 0) { %>
+            <p>You have no groups. Create one to get started.</p>
+        <% } else { %>
+            <% groups.forEach(function(group) { %>
+                <div class="group-item">
+                    <h3><%= group.GroupName %></h3>
+                    <button class="btn" onclick="showAddStudentsModal('<%= group.GroupID %>')">Add Students</button>
+                    <h4>Students:</h4>
+                    <% if (group.students.length === 0) { %>
+                        <p>No students in this group.</p>
+                    <% } else { %>
+                        <ul class="student-list">
+                            <% group.students.forEach(function(student) { %>
+                                <li class="student-item">
+                                    <span><%= student.name %> (<%= student.email %>)</span>
+                                    <span>Average Rating: <%= student.averageRating %></span>
+                                    <button class="btn" onclick="showStudentEvaluations('<%= group.GroupID %>', '<%= student.email %>', '<%= student.name %>')">View Evaluations</button>
+                                </li>
+                            <% }); %>
+                        </ul>
+                    <% } %>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+
+    <!-- Modals for creating groups, adding students, and viewing evaluations -->
+    <!-- Modal for Creating Group -->
+    <div id="createGroupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCreateGroupModal()">&times;</span>
+            <h2>Create Group</h2>
+            <form action="/create-group" method="POST">
+                <label for="groupName">Group Name:</label>
+                <input type="text" name="groupName" id="groupName" required>
+                <button class="btn" type="submit">Create</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Adding Students -->
+    <div id="addStudentsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddStudentsModal()">&times;</span>
+            <h2>Add Students to Group</h2>
+            <form action="/assign-students" method="POST">
+                <input type="hidden" name="groupID" id="groupID">
+                <label for="studentEmails">Student Emails (comma-separated):</label>
+                <textarea name="studentEmails" id="studentEmails" required></textarea>
+                <button class="btn" type="submit">Add Students</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Viewing Student Evaluations -->
+    <div id="studentEvaluationsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeStudentEvaluationsModal()">&times;</span>
+            <h2>Evaluations for <span id="studentName"></span></h2>
+            <div id="evaluationsContent">
+                <!-- Evaluations will be loaded here via AJAX -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript functions to open and close modals
+        function showCreateGroupModal() {
+            document.getElementById('createGroupModal').style.display = 'block';
+        }
+
+        function closeCreateGroupModal() {
+            document.getElementById('createGroupModal').style.display = 'none';
+        }
+
+        function showAddStudentsModal(groupID) {
+            document.getElementById('groupID').value = groupID;
+            document.getElementById('addStudentsModal').style.display = 'block';
+        }
+
+        function closeAddStudentsModal() {
+            document.getElementById('addStudentsModal').style.display = 'none';
+        }
+
+        function showStudentEvaluations(groupID, studentEmail, studentName) {
+            document.getElementById('studentName').textContent = studentName;
+            // Load evaluations via AJAX and display in the modal
+            fetch('/student-evaluations?groupID=' + groupID + '&studentEmail=' + encodeURIComponent(studentEmail))
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('evaluationsContent').innerHTML = html;
+                    document.getElementById('studentEvaluationsModal').style.display = 'block';
+                });
+        }
+
+        function closeStudentEvaluationsModal() {
+            document.getElementById('studentEvaluationsModal').style.display = 'none';
+        }
+
+        // Close modals when clicking outside of them
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('createGroupModal')) {
+                closeCreateGroupModal();
+            }
+            if (event.target == document.getElementById('addStudentsModal')) {
+                closeAddStudentsModal();
+            }
+            if (event.target == document.getElementById('studentEvaluationsModal')) {
+                closeStudentEvaluationsModal();
+            }
+        }
+    </script>
+</body>
+</html>
