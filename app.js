@@ -64,35 +64,36 @@ app.get('/student-login', (req, res) => {
 });
 
 app.get('/teacher-login', (req, res) => {
-  res.render('teacher-login');
+  const error = req.query.error; // Get error parameter if it exists
+  res.render('teacher-login', { error }); // Pass error to the template
 });
 
 app.post('/teacher-login', (req, res) => {
-  const { email, password } = req.body;
-  const filePath = path.join(__dirname, 'data', 'teachers.csv');
+    const { email, password } = req.body;
+    const filePath = path.join(__dirname, 'data', 'teachers.csv');
 
-  fs.readFile(filePath, 'utf8', (err, data) => {
-      if (err) {
-          console.error('Error reading CSV file', err);
-          return res.status(500).send('An error occurred, please try again.');
-      }
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading CSV file', err);
+            return res.status(500).send('An error occurred, please try again.');
+        }
 
-      const lines = data.split('\n');
-      const found = lines.some(line => {
-          const [name, storedEmail, storedPassword] = line.split(',');
-          if (storedEmail === email && storedPassword.trim() === password) {
-              req.session.teacher = { name, email };
-              return true;
-          }
-          return false;
-      });
+        const lines = data.split('\n');
+        const found = lines.some(line => {
+            const [name, storedEmail, storedPassword] = line.split(',');
+            if (storedEmail === email && storedPassword.trim() === password) {
+                req.session.teacher = { name, email };
+                return true;
+            }
+            return false;
+        });
 
-      if (found) {
-          res.redirect('/teacher-initial');
-      } else {
-          res.redirect('/teacher-login?error=invalid_credentials');
-      }
-  });
+        if (found) {
+            res.redirect('/teacher-initial');
+        } else {
+            res.redirect('/teacher-login?error=invalid_credentials');
+        }
+    });
 });
 
 app.get('/teacher-initial', (req, res) => {
@@ -100,7 +101,6 @@ app.get('/teacher-initial', (req, res) => {
       return res.redirect('/teacher-login?error=unauthorized');
   }
 
-  // Pass user-specific data to teacher-initial.ejs
   res.render('teacher-initial', { teacher: req.session.teacher });
 });
 
