@@ -8,10 +8,19 @@ const PORT = process.env.PORT || 8080; // Use Railway’s dynamic port
 
 console.log('PORT from environment:', PORT); // Debugging port usage
 
-// PostgreSQL connection pool
+// PostgreSQL connection pool with optimized settings
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false },
+  idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
+  connectionTimeoutMillis: 2000, // Wait 2 seconds for a connection
+  max: 5 // Limit the number of clients in the pool
+});
+
+// Error handling for idle clients
+pool.on('error', (err) => {
+  console.error('Unexpected error on idle database client:', err);
+  process.exit(-1); // Exit the process on error to avoid issues
 });
 
 // Check database connection at startup
@@ -40,6 +49,17 @@ app.get('/', (req, res) => res.render('index'));
 // Health check route
 app.get('/health', (req, res) => {
   res.status(200).send('App is healthy!');
+});
+
+// Test DB connection route
+app.get('/test-db', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT NOW()');
+    res.status(200).send(`Database time: ${result.rows[0].now}`);
+  } catch (err) {
+    console.error('Error querying database:', err);
+    res.status(500).send('Database connection error');
+  }
 });
 
 // POST route to submit a rating
