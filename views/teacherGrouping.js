@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+    console.log("Page loaded, attaching event listeners...");
+
     let studentData = [
         { name: "Alice", id: 1 },
         { name: "Bob", id: 2 },
@@ -6,9 +8,9 @@ document.addEventListener("DOMContentLoaded", function () {
         { name: "Dana", id: 4 }
     ];
     let teams = [];
-    let currentTeam = null; // Keep track of the current team being edited
+    let currentTeam = null;
     let teamCount = 1;
-    let temporarySelections = []; // Store temporarily selected student IDs
+    let temporarySelections = [];
 
     const createTeamButton = document.getElementById("create-team");
     const teamList = document.getElementById("team-list");
@@ -21,182 +23,155 @@ document.addEventListener("DOMContentLoaded", function () {
     const saveAndCloseTeamButton = document.getElementById("save-and-close-team");
     const reviewTableDiv = document.getElementById("review-table");
 
-    // Create a new team (initially empty) and open modal for team member selection
+    // Create a new team and open modal for member selection
     createTeamButton.addEventListener("click", () => {
-        const team = { id: teamCount, name: `Team ${teamCount}`, members: [] };
-        teams.push(team);
-        teamCount++;
-        addTeamButton(team);
-        openTeamModal(team); // Open modal to allow member addition
+        console.log("Create Team button clicked");
+        currentTeam = { id: teamCount, name: `Team ${teamCount}`, members: [] };
+        openTeamModal(currentTeam);
     });
-
-    // Add team button to the list
-    function addTeamButton(team) {
-        const teamButton = document.createElement("div");
-        teamButton.innerHTML = `
-            <button data-team-id="${team.id}">${team.name}</button>
-            <button class="review-button" data-team-id="${team.id}">Review</button>
-        `;
-        teamButton.querySelector('button[data-team-id]').addEventListener("click", () => openTeamModal(team));
-        teamButton.querySelector('.review-button').addEventListener("click", () => showReviewTable(team));
-        teamList.appendChild(teamButton);
-    }
 
     // Open the team modal to display and edit team members
     function openTeamModal(team) {
-        currentTeam = team; // Set the current team for editing
-        editTeamNameInput.value = team.name; // Show current team name in the input for editing
-        teamMembersDiv.innerHTML = ""; // Clear previous member list
-        temporarySelections = []; // Clear any previous temporary selections
-        renderTeamMembers(team); // Show current members
-        renderAdditionalStudentsList(); // Display remaining students available for adding to the team
-        deleteTeamButton.onclick = () => deleteTeam(team); // Assign delete action for current team to the delete button
+        console.log("Opening team modal for:", team);
+        currentTeam = team; // Set currentTeam to the team being edited
+        editTeamNameInput.value = team.name;
+        teamMembersDiv.innerHTML = "";
+        temporarySelections = [];
+        renderTeamMembers(team);  // Render current team members
+        renderAdditionalStudentsList();  // Render additional students list with checkboxes
+        deleteTeamButton.onclick = () => deleteTeam(team);
         teamModal.style.display = "block";
     }
 
-    // Show the review table for the current team
-    function showReviewTable(team) {
-        // Clear previous review table if any
-        reviewTableDiv.innerHTML = "";
-
-        // Create table for reviews
-        const table = document.createElement("table");
-        table.innerHTML = `
-            <thead>
-                <tr>
-                    <th>Student Name</th>
-                    <th>Rating (0-5)</th>
-                    <th>Conceptual Contribution</th>
-                    <th>Practical Contribution</th>
-                    <th>Work Ethic</th>
-                    <th>Collaboration</th>
-                    <th>Comments</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${team.members.map(member => `
-                    <tr>
-                        <td>${member.name}</td>
-                        <td><input type="number" min="0" max="5" style="width: 50px;"></td>
-                        <td><input type="text" style="width: 100px;"></td>
-                        <td><input type="text" style="width: 100px;"></td>
-                        <td><input type="text" style="width: 100px;"></td>
-                        <td><input type="text" style="width: 100px;"></td>
-                        <td><input type="text" style="width: 150px;"></td>
-                    </tr>
-                `).join('')}
-            </tbody>
-        `;
-        reviewTableDiv.appendChild(table);
-    }
-
-    // Render available students in modal for adding to the team
-    function renderAdditionalStudentsList() {
-        additionalStudentsDiv.innerHTML = ""; // Clear additional students list
-
-        studentData.forEach(student => {
-            const studentDiv = document.createElement("div");
-            studentDiv.innerHTML = `
-                <input type="checkbox" class="additional-student-checkbox" value="${student.id}">
-                <label>${student.name}</label>
-            `;
-            additionalStudentsDiv.appendChild(studentDiv);
-        });
-
-        const addButton = document.createElement("button");
-        addButton.textContent = "Add Selected Students";
-        addButton.addEventListener("click", addSelectedStudentsTemporarily);
-        additionalStudentsDiv.appendChild(addButton);
-    }
-
-    // Temporarily select students to add to a team without committing changes
-    function addSelectedStudentsTemporarily() {
-        const checkboxes = document.querySelectorAll(".additional-student-checkbox:checked");
-        temporarySelections = Array.from(checkboxes).map(checkbox => parseInt(checkbox.value));
-        renderTeamMembers(currentTeam); // Refresh the team members display
-    }
-
-    // Render team members
-    function renderTeamMembers(team) {
-        teamMembersDiv.innerHTML = ""; // Clear previous member list
-
-        team.members.forEach(member => {
-            const memberDiv = createMemberDiv(member);
-            teamMembersDiv.appendChild(memberDiv);
-        });
-
-        temporarySelections.forEach(id => {
-            const student = studentData.find(s => s.id === id);
-            if (student) {
-                const tempMemberDiv = document.createElement("div");
-                tempMemberDiv.innerHTML = `<span>${student.name} (added temporarily)</span>`;
-                teamMembersDiv.appendChild(tempMemberDiv);
-            }
-        });
-    }
-
-    // Create a member div with remove functionality
-    function createMemberDiv(member) {
-        const memberDiv = document.createElement("div");
-        memberDiv.innerHTML = `
-            <span>${member.name}</span>
-            <button class="remove-member" data-member-id="${member.id}">Remove</button>
-        `;
-        memberDiv.querySelector(".remove-member").addEventListener("click", () => removeMemberFromTeam(member.id));
-        return memberDiv;
-    }
-
-    // Add temporarily selected students to a team and remove them from main student list
-    function commitTemporarySelectionsToTeam() {
-        temporarySelections.forEach(id => {
-            const student = studentData.find(s => s.id === id);
-            if (student) {
-                currentTeam.members.push(student); // Add student to team
-            }
-        });
-        studentData = studentData.filter(student => !temporarySelections.includes(student.id)); // Filter out added students from the main list
-    }
-
-    // Remove a student from the team and re-add them to main student list
-    function removeMemberFromTeam(memberId) {
-        const memberIndex = currentTeam.members.findIndex(member => member.id === memberId);
-        if (memberIndex !== -1) {
-            const removedMember = currentTeam.members.splice(memberIndex, 1)[0]; // Remove member from team
-            studentData.push(removedMember); // Return student to main list
-            renderTeamMembers(currentTeam); // Refresh modal to reflect update
-        }
-    }
-
-    // Delete a team and return its members to main student list
-    function deleteTeam(team) {
-        team.members.forEach(member => studentData.push(member)); // Return members to main list
-        teams = teams.filter(t => t.id !== team.id); // Remove team from teams array
-        teamList.querySelector(`[data-team-id="${team.id}"]`).remove(); // Remove team button from UI
-        teamModal.style.display = "none"; // Close modal after deletion
-    }
-
-    // Save edited team name from input field and close the modal
+    // Save edited team name and close modal
     saveAndCloseTeamButton.onclick = () => {
         if (currentTeam) {
             const newName = editTeamNameInput.value.trim();
             if (newName) {
-                currentTeam.name = newName; // Update team's name in data
-                teamList.querySelector(`[data-team-id="${currentTeam.id}"]`).textContent = newName; // Reflect name change on button
+                currentTeam.name = newName;
             }
-            commitTemporarySelectionsToTeam(); // Commit changes when saving
-            teamModal.style.display = "none"; // Close the modal
+            commitTemporarySelectionsToTeam();
+            if (!teams.some(t => t.id === currentTeam.id)) {
+                // If it's a new team, add it to the list
+                teams.push(currentTeam);
+                teamCount++;
+            }
+            updateTeamList();
+            currentTeam = null;
+            teamModal.style.display = "none";
         }
     };
 
-    // Close the modal when clicking the close icon
+    // Close modal without saving when clicking the close icon
     closeModal.onclick = function () {
-        teamModal.style.display = "none"; // Close modal without saving
+        console.log("Modal closed without saving");
+        currentTeam = null;
+        teamModal.style.display = "none";
     };
 
-    // Close modal if clicking outside of it
+    // Close modal without saving if clicking outside of it
     window.onclick = function (event) {
         if (event.target === teamModal) {
-            teamModal.style.display = "none"; // Close modal without saving
+            console.log("Clicked outside modal, closing without saving");
+            currentTeam = null;
+            teamModal.style.display = "none";
         }
     };
+
+    // Function to update the team list display
+    function updateTeamList() {
+        teamList.innerHTML = ""; // Clear existing team buttons
+        teams.forEach(team => addTeamButton(team)); // Re-render each team button
+    }
+
+    function addTeamButton(team) {
+        const teamButton = document.createElement("div");
+        teamButton.innerHTML = `
+            <button class="team-button" data-team-id="${team.id}">${team.name}</button>
+            <button class="review-button" data-team-id="${team.id}">Review</button>
+        `;
+        teamButton.querySelector('.team-button').addEventListener("click", () => openTeamModal(team));
+        teamButton.querySelector('.review-button').addEventListener("click", () => showReviewTable(team));
+        teamList.appendChild(teamButton);
+    }
+
+    // Render current team members with a remove button
+    function renderTeamMembers(team) {
+        teamMembersDiv.innerHTML = ""; // Clear existing members
+        team.members.forEach(member => {
+            const memberDiv = document.createElement("div");
+            memberDiv.innerHTML = `
+                ${member.name} 
+                <button class="remove-student-button" data-student-id="${member.id}">Remove</button>
+            `;
+            memberDiv.querySelector(".remove-student-button").addEventListener("click", () => removeStudentFromTeam(member));
+            teamMembersDiv.appendChild(memberDiv);
+        });
+    }
+
+    // Render additional students list with checkboxes
+    function renderAdditionalStudentsList() {
+        additionalStudentsDiv.innerHTML = ""; // Clear previous list
+        studentData.forEach(student => {
+            if (!currentTeam.members.some(member => member.id === student.id)) { // Exclude students already in team
+                const studentDiv = document.createElement("div");
+                studentDiv.innerHTML = `
+                    <input type="checkbox" class="additional-student-checkbox" value="${student.id}">
+                    <label>${student.name}</label>
+                `;
+                additionalStudentsDiv.appendChild(studentDiv);
+            }
+        });
+
+        // Add a button to add all selected students at once
+        const addSelectedButton = document.createElement("button");
+        addSelectedButton.textContent = "Add Selected";
+        addSelectedButton.addEventListener("click", addSelectedStudentsToTeam);
+        additionalStudentsDiv.appendChild(addSelectedButton);
+    }
+
+    // Add selected students to the team
+    function addSelectedStudentsToTeam() {
+        const selectedCheckboxes = additionalStudentsDiv.querySelectorAll(".additional-student-checkbox:checked");
+        selectedCheckboxes.forEach(checkbox => {
+            const studentId = parseInt(checkbox.value);
+            const student = studentData.find(s => s.id === studentId);
+            if (student && !temporarySelections.some(s => s.id === studentId)) {
+                temporarySelections.push(student);
+            }
+        });
+        commitTemporarySelectionsToTeam();
+        renderAdditionalStudentsList();  // Refresh additional students list to exclude added members
+    }
+
+    // Commit temporary selections to the current team and clear selections
+    function commitTemporarySelectionsToTeam() {
+        if (currentTeam) {
+            temporarySelections.forEach(student => {
+                if (!currentTeam.members.some(member => member.id === student.id)) {
+                    currentTeam.members.push(student);
+                }
+            });
+            temporarySelections = []; // Clear after committing
+            renderTeamMembers(currentTeam); // Refresh team members view
+        }
+    }
+
+    // Remove student from team and add them back to the additional students list
+    function removeStudentFromTeam(student) {
+        currentTeam.members = currentTeam.members.filter(member => member.id !== student.id);
+        renderTeamMembers(currentTeam); // Update team members view
+        renderAdditionalStudentsList(); // Update additional students list
+    }
+
+    // Delete a team from the teams list
+    function deleteTeam(team) {
+        teams = teams.filter(t => t.id !== team.id); // Remove the team from the array
+        updateTeamList(); // Update the team list display
+        teamModal.style.display = "none"; // Close the modal
+    }
+
+    function showReviewTable(team) {
+        // Logic for showing the review table goes here
+    }
 });
