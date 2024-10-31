@@ -35,6 +35,10 @@
 - `student-login.ejs` and `teacher-login.ejs`: Login pages for students and teachers.
 - `script.js`: Client-side functionality for smooth animations and redirections.
 - `styles.css`: Styling for a consistent dark-themed user experience.
+- `teammates.html`: A list containing the name of students that were working in the same team.
+- `Evaluation.html`: Textbox for a number from 0 to 5, allowing the evaluation of teammates.
+- `Student_Dimen_As.html`: Three textbox asking for comments about teammate contributions.
+- `Confirmation_Page.html`: Showing a text message that the evaluation has been submitted.
 
 ## License
 
