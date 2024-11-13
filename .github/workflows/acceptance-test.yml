@@ -10,20 +10,6 @@ jobs:
   acceptance-test:
     runs-on: ubuntu-latest
 
-    services:
-      web:
-        image: node:18
-        ports:
-          - 3000:3000
-        options: >-
-          --privileged
-          --health-cmd "curl --fail https://assessything.up.railway.app/ || exit 1"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        env:
-          NODE_ENV: test
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -35,9 +21,6 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-
-    - name: Start application
-      run: npm start &  # Start the app in the background
 
     - name: Wait for app to start
       run: |
