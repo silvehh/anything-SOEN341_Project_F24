@@ -1,0 +1,42 @@
+name: Acceptance Test
+
+on:
+  push:
+    branches: [Acceptance-Test]
+  pull_request:
+    branches: [Acceptance-Test]
+
+jobs:
+  acceptance-test:
+    runs-on: ubuntu-latest
+
+    services:
+      web:
+        image: node:18
+        ports:
+          - 3000:3000
+        options: >-
+          --health-cmd "curl --fail http://localhost:3000 || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        env:
+          NODE_ENV: test
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Start application
+      run: npm start &  # Start the app in the background
+
+    - name: Run acceptance tests
+      run: npm test -- test/acceptance-test.mjs  # Run the acceptance test
