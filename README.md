@@ -14,6 +14,8 @@
 - **Evaluation page**: Divided into two pages. The first page is the evaluation of the teammates cooperation from 0 to 5. The second page is the evaluation of the teammates contributions in a project.
 - **Confirmation page**: A page showing a message that your evaluation has been submitted.
 - **Teacher page**: Once the teacher log in to his/her page he/she can create team, and assign students to specific groups.
+- **Unit Test 1**: 
+- **Unit Test 2**: Verifying if the rating inputed by a student is between 1 to 5 (within the accepted range)
 
 
 ## Tech Stack
