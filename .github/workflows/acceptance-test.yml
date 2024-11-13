@@ -1,4 +1,5 @@
 name: Acceptance Test
+run-name: Testing logging in, evaluating, and seeing if confirmation page is reached
 
 on:
   push:
