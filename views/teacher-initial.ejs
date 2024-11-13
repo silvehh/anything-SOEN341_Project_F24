@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, <%= teacher.name %>!</h1>
+        <p>Email: <%= teacher.email %></p>
+        <a href="/logout" class="btn">Logout</a>
+    </div>
+
+    <header>
+        <h1>Your Groups</h1>
+    </header>
+    <main>
+        <div id="team-list" class="group-list">
+            <% groups.forEach(function(group) { %>
+                <div class="group">
+                    <h3><%= group.GroupName %></h3>
+                    <button class="btn" onclick="openGroup('<%= group.GroupID %>')">Manage Group</button>
+                </div>
+            <% }); %>
+        </div>
+        <button id="create-group" class="btn">Create Group</button>
+    </main>
+
+    <!-- Modal and other HTML elements -->
+
+    <script src="/js/teacherGrouping.js"></script>
+</body>
+</html>

@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Selection</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <script src="/routes/script.js"></script>
+    <script>
+        function redirectToLogin(role) {
+            if (role === 'student') {
+                window.location.href = '/student-login';
+            } else if (role === 'teacher') {
+                window.location.href = '/teacher-login';
+            }
+        }
+    </script>
 </head>
-
 <body class="login-selection">
     <div class="container">
         <h1>Are you a Student or Teacher?</h1>
@@ -16,6 +21,16 @@
         <button class="btn" onclick="redirectToLogin('teacher')">Teacher</button>
     </div>
 
+    <% if (typeof signup !== 'undefined' && signup === 'success') { %>
+    <div id="popup" class="popup">Sign up successful!</div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const popup = document.getElementById('popup');
+            setTimeout(() => {
+                popup.classList.add('hide');
+            }, 3000); 
+        });
+    </script>
+    <% } %>
 </body>
-
 </html>

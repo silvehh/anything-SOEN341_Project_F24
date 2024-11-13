@@ -6,14 +6,25 @@
   "author": "alphasec",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.3",
     "csv-writer": "^1.6.0",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
-    "express": "^4.21.0",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "fast-csv": "^5.0.2",
     "pg": "^8.13.1"
   },
+
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "supertest": "^6.3.3"
+  },
+  
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "jest"
   },
   "keywords": []
 }

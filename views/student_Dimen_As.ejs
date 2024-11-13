@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dimension-Based Assessment</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Further Evaluation of <%= evaluatee.name %></h2>
+        <form action="/submit-dimensions" method="post">
+            <input type="hidden" name="evaluateeEmail" value="<%= evaluatee.email %>">
+
+            <div class="dimension">
+                <label for="q1">Conceptual Contribution</label><br>
+                <textarea id="q1" name="q1" placeholder="Write Here" required></textarea>
+            </div>
+
+            <div class="dimension">
+                <label for="q2">Practical Contribution</label><br>
+                <textarea id="q2" name="q2" placeholder="Write Here" required></textarea>
+            </div>
+
+            <div class="dimension">
+                <label for="q3">Work Ethic</label><br>
+                <textarea id="q3" name="q3" placeholder="Write Here" required></textarea>
+            </div>
+
+            <button class="btn" type="submit">Submit Assessment</button>
+        </form>
+    </div>
+</body>
+</html>

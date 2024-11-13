@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Teammate to Evaluate</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, <%= user.name %>!</h1>
+        <p>Your email: <%= user.email %></p>
+        <a href="/logout" class="btn">Logout</a>
+    </div>
+
+    <h2>Your Teammates:</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% teammates.forEach(function(teammate) { %>
+                <% if (teammate.email !== user.email) { %>
+                    <tr>
+                        <td>
+                            <%= teammate.name %>
+                            <a href="/evaluate?evaluateeEmail=<%= teammate.email %>" class="btn">Evaluate</a>
+                        </td>
+                    </tr>
+                <% } %>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

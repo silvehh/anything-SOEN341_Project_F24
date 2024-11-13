@@ -10,6 +10,10 @@
 - **Teacher Access**: Teachers can log in to view assessment results, helping them gain insights into student performance and contributions.
 - **Role-Based Login System**: Dedicated login pages for students and teachers provide tailored functionality for each role.
 - **Google OAuth Login**: Users can conveniently log in using their Google accounts.
+- **Student page**: When students log in to their pages, they see a list that includes the name of their teammates. By clicking on the names, they have the option to evaluate their teammates.
+- **Evaluation page**: Divided into two pages. The first page is the evaluation of the teammates cooperation from 0 to 5. The second page is the evaluation of the teammates contributions in a project.
+- **Confirmation page**: A page showing a message that your evaluation has been submitted.
+- **Teacher page**: Once the teacher log in to his/her page he/she can create team, and assign students to specific groups.
 
 
 ## Tech Stack
@@ -31,6 +35,10 @@
 - `student-login.ejs` and `teacher-login.ejs`: Login pages for students and teachers.
 - `script.js`: Client-side functionality for smooth animations and redirections.
 - `styles.css`: Styling for a consistent dark-themed user experience.
+- `teammates.html`: A list containing the name of students that were working in the same team.
+- `Evaluation.html`: Textbox for a number from 0 to 5, allowing the evaluation of teammates.
+- `Student_Dimen_As.html`: Three textbox asking for comments about teammate contributions.
+- `Confirmation_Page.html`: Showing a text message that the evaluation has been submitted.
 
 ## License
 

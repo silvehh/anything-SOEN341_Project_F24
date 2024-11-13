@@ -7,6 +7,97 @@ body {
     margin: 0;
     color: #E0E0E0;
 }
+/* Existing styles in styles.css */
+
+/* Teacher Dashboard Specific Styles */
+body.teacher-dashboard {
+    background-color: #1a1a1a; /* Very dark grey */
+    color: #E0E0E0; /* Light grey text for readability */
+}
+
+body.teacher-dashboard .container {
+    /* Container styles if needed */
+}
+
+body.teacher-dashboard .group-item {
+    background-color: rgba(77, 77, 77, 0.95);
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+body.teacher-dashboard .student-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+body.teacher-dashboard .student-item {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+body.teacher-dashboard .student-item span {
+    flex: 1;
+    color: #E0E0E0;
+}
+
+body.teacher-dashboard .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 2; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.7); /* Black with opacity */
+}
+
+body.teacher-dashboard .modal-content {
+    background-color: rgba(77, 77, 77, 0.95);
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    color: #E0E0E0;
+}
+
+body.teacher-dashboard .close {
+    color: #E0E0E0;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+body.teacher-dashboard .close:hover,
+body.teacher-dashboard .close:focus {
+    color: #FF9F1C;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+body.teacher-dashboard label {
+    display: block;
+    margin-top: 10px;
+}
+
+body.teacher-dashboard input[type="text"],
+body.teacher-dashboard textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #4D4D4D;
+    color: #E0E0E0;
+}
+
+body.teacher-dashboard button.btn {
+    margin-top: 15px;
+}
 
 .container, .signup-container, .login-container {
     text-align: center;
@@ -92,3 +183,260 @@ body.teacher-login {
     overflow: hidden;
 }
 
+body.teacher-dashboard {
+    background-image: url('/images/tts.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50; /* Green background for success */
+    color: white;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+.popup.hide {
+    opacity: 0;
+}
+
+.popup-error {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f44336; /* Red background for error */
+    color: white;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+.popup-error.hide {
+    opacity: 0;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: rgba(77, 77, 77, 0.95);
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    color: #E0E0E0;
+}
+
+th {
+    background-color: #4F8A8B;
+}
+
+tr:hover {
+    background-color: #575757;
+}
+
+.dimension {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.dimension label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.dimension textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    resize: vertical;
+}
+
+.group-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px;
+}
+
+.group {
+    background-color: rgba(77, 77, 77, 0.95);
+    margin: 10px;
+    padding: 15px;
+    border-radius: 10px;
+    width: 200px;
+    text-align: center;
+}
+
+.group h3 {
+    margin-bottom: 10px;
+}
+
+.group .btn {
+    width: 100%;
+}
+
+/* Styles for tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #4F8A8B;
+    color: white;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50; /* Green background for success */
+    color: white;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+.popup.hide {
+    opacity: 0;
+}
+
+.popup-error {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f44336; /* Red background for error */
+    color: white;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+.popup-error.hide {
+    opacity: 0;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: rgba(77, 77, 77, 0.95);
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    color: #E0E0E0;
+}
+
+th {
+    background-color: #4F8A8B;
+}
+
+tr:hover {
+    background-color: #575757;
+}
+
+.dimension {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.dimension label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.dimension textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    resize: vertical;
+}
+
+.group-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px;
+}
+
+.group {
+    background-color: rgba(77, 77, 77, 0.95);
+    margin: 10px;
+    padding: 15px;
+    border-radius: 10px;
+    width: 200px;
+    text-align: center;
+}
+
+.group h3 {
+    margin-bottom: 10px;
+}
+
+.group .btn {
+    width: 100%;
+}
+
+/* Styles for tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #4F8A8B;
+    color: white;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
