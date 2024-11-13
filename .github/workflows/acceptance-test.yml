@@ -17,7 +17,7 @@ jobs:
           - 3000:3000
         options: >-
           --privileged
-          --health-cmd "curl --fail http://localhost:3000 || exit 1"
+          --health-cmd "curl --fail https://assessything.up.railway.app/ || exit 1"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -41,7 +41,10 @@ jobs:
 
     - name: Wait for app to start
       run: |
-        curl --retry 10 --retry-delay 5 --max-time 60 --fail http://localhost:3000
+        until curl --silent --fail https://assessything.up.railway.app/; do
+          echo "Waiting for app to start..."
+          sleep 5
+        done
 
     - name: Run acceptance tests
       run: npm test -- test/acceptance-test.mjs  # Run the acceptance test
