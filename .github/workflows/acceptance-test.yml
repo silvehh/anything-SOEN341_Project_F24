@@ -1,5 +1,5 @@
 name: Acceptance Test
-run-name: Testing logging in, evaluating, and seeing if confirmation page is reached
+run-name: Testing logging in, evaluating as student, and seeing if confirmation page is reached
 
 on:
   push:
@@ -31,4 +31,4 @@ jobs:
         done
 
     - name: Run acceptance tests
-      run: npm test -- test/acceptance-test.mjs  # Run the acceptance test
+      run: npm test -- test/acceptance-test.mjs
