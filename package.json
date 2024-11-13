@@ -23,6 +23,12 @@
     "puppeteer": "^23.7.1",
     "supertest": "^6.3.3"
   },
+  "jest": {
+    "testMatch": [
+      "**/?(*.)+(spec|test).[tj]s?(x)",
+      "**/?(*.)+(spec|test).[m]js"
+    ]
+  },
   "scripts": {
     "start": "node app.js",
     "test": "jest",
