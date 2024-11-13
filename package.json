@@ -16,15 +16,16 @@
     "fast-csv": "^5.0.2",
     "pg": "^8.13.1"
   },
-
   "devDependencies": {
-    "jest": "^29.0.0",
+    "chai": "^4.3.4",
+    "mocha": "^10.8.2",
+    "puppeteer": "^23.7.1",
     "supertest": "^6.3.3"
   },
-  
   "scripts": {
     "start": "node app.js",
-    "test": "jest"
+    "test": "mocha test/acceptance-test.mjs --timeout 30000 --exit",
+    "test:acceptance": "mocha test/acceptance-test.mjs"
   },
   "keywords": []
 }
