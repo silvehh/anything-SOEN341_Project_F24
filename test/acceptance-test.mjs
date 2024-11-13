@@ -16,7 +16,7 @@ describe('Student Rating and Dimension Assessment Flow', function () {
 
   it('should log in as a student, rate another student, complete further assessment, and see the confirmation page', async function () {
     // Open the login page
-    await page.goto('http://localhost:3000/student-login');
+    await page.goto('https://assessything.up.railway.app/student-login');
 
     // Log in as a test student
     await page.type('input[name="email"]', 'teststudent1@student.com'); // Replace with test email
@@ -27,7 +27,7 @@ describe('Student Rating and Dimension Assessment Flow', function () {
     await page.waitForSelector('h2'); // Update selector to match the teammates page
 
     // Navigate to the evaluation page for a specific student
-    await page.goto('http://localhost:3000/evaluate?evaluateeEmail=teststudent2@student.com'); // Replace with the appropriate evaluatee email
+    await page.goto('https://assessything.up.railway.app/evaluate?evaluateeEmail=teststudent2@student.com'); // Replace with the appropriate evaluatee email
 
     // Verify evaluation page loaded and rate the student
     await page.waitForSelector('h1'); // Wait for the heading to load
