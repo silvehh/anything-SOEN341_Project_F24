@@ -2,9 +2,9 @@ name: Acceptance Test
 
 on:
   push:
-    branches: [main]
+    branches: [main, Acceptance-Test]
   pull_request:
-    branches: [main]
+    branches: [main, Acceptance-Test]
 
 jobs:
   acceptance-test:
