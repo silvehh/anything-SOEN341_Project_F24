@@ -39,5 +39,9 @@ jobs:
     - name: Start application
       run: npm start &  # Start the app in the background
 
+    - name: Wait for app to start
+      run: |
+        curl --retry 10 --retry-delay 5 --max-time 60 --fail http://localhost:3000
+
     - name: Run acceptance tests
       run: npm test -- test/acceptance-test.mjs  # Run the acceptance test
