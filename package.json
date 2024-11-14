@@ -29,6 +29,6 @@
     "test:acceptance": "mocha test/acceptance-test.mjs"
 
   },
-  "type": "module",
+  "type": "commonjs",
   "keywords": []
 }
