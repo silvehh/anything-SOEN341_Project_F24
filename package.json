@@ -27,5 +27,6 @@
     "test": "mocha test/acceptance-test.mjs --timeout 30000 --exit",
     "test:acceptance": "mocha test/acceptance-test.mjs"
   },
+  "type": "commonjs",
   "keywords": []
 }
