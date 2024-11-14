@@ -17,13 +17,17 @@
     "pg": "^8.13.1"
   },
   "devDependencies": {
-    "chai": "^5.1.2",
-    "jest": "^29.0.0",
+
+    "chai": "^4.3.4",
     "mocha": "^10.8.2",
+    "puppeteer": "^23.7.1",
     "supertest": "^6.3.3"
   },
   "scripts": {
-    "test": "mocha"
+    "start": "node app.js",
+    "test": "mocha test/acceptance-test.mjs --timeout 30000 --exit",
+    "test:acceptance": "mocha test/acceptance-test.mjs"
+
   },
   "type": "module",
   "keywords": []

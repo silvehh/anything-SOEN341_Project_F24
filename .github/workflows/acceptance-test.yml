@@ -1,0 +1,34 @@
+name: Acceptance Test
+run-name: Testing logging in, evaluating as student, and seeing if confirmation page is reached
+
+on:
+  push:
+    branches: [main, Acceptance-Test]
+  pull_request:
+    branches: [main, Acceptance-Test]
+
+jobs:
+  acceptance-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Wait for app to start
+      run: |
+        until curl --silent --fail https://assessything.up.railway.app/; do
+          echo "Waiting for app to start..."
+          sleep 5
+        done
+
+    - name: Run acceptance tests
+      run: npm test -- test/acceptance-test.mjs

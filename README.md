@@ -14,6 +14,7 @@
 - **Evaluation page**: Divided into two pages. The first page is the evaluation of the teammates cooperation from 0 to 5. The second page is the evaluation of the teammates contributions in a project.
 - **Confirmation page**: A page showing a message that your evaluation has been submitted.
 - **Teacher page**: Once the teacher log in to his/her page he/she can create team, and assign students to specific groups.
+- **Warning message**: Verifying if the rating inputed by a student is between 1 to 5 (within the accepted range). If not, it will warn the student about it.
 
 
 ## Tech Stack
@@ -21,6 +22,7 @@
 - **Frontend**: HTML, CSS, JavaScript (EJS for server-side rendering)
 - **Styling**: A dark theme for a focused and simple user interface
 - **Backend**: EJS templates handle the views and server-side logic
+- **Acceptance test**: Mocha, Chai, and Puppeteer
 
 ## Usage
 
