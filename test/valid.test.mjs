@@ -1,6 +1,6 @@
 
 import { expect } from 'chai';
-import { rating } from '../valid.js'
+import { rating } from './valid.mjs'
 
 //Create test case
 describe('rating', () => {

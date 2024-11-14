@@ -25,7 +25,9 @@
   "scripts": {
     "start": "node app.js",
     "test": "mocha test/acceptance-test.mjs --timeout 30000 --exit",
-    "test:acceptance": "mocha test/acceptance-test.mjs"
+    "test:acceptance": "mocha test/acceptance-test.mjs",
+    "test:unit1": "mocha test/valid.test.mjs",
+    "test:unit2": "mocha test/valid2.test.mjs"
   },
   "type": "commonjs",
   "keywords": []

@@ -6,7 +6,7 @@ describe('Student Rating and Dimension Assessment Flow', function () {
   let browser, page;
 
   before(async function () {
-    browser = await puppeteer.launch({ headless: true });
+    browser = await puppeteer.launch({ headless: false });
     page = await browser.newPage();
   });
 
