@@ -47,11 +47,7 @@ function readCSV(filePath) {
       });
   });
 }
- function avg(ratings) {
-  return ratings.length > 0 
-    ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(2) 
-    : 'N/A';
-};
+
 function appendToCSV(filePath, data, headers) {
   return new Promise((resolve, reject) => {
     let writeHeaders = false;
@@ -355,8 +351,9 @@ app.get('/teacher-dashboard', requireTeacherLogin, async (req, res) => {
 
           // Calculate average rating
           const ratings = studentEvaluations.map(evaluation => parseFloat(evaluation.Rating));
-          const averageRating = avg;
-            
+          const averageRating =
+            ratings.length > 0 ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(2) : 'N/A';
+
           return {
             ...student,
             evaluations: studentEvaluations,
