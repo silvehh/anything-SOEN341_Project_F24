@@ -15,6 +15,7 @@
 - **Confirmation page**: A page showing a message that your evaluation has been submitted.
 - **Teacher page**: Once the teacher log in to his/her page he/she can create team, and assign students to specific groups.
 - **Warning message**: Verifying if the rating inputed by a student is between 1 to 5 (within the accepted range). If not, it will warn the student about it.
+- **Showing Emails**: In the list of students on the teacher page, emails are displayed instead of names, so that if there is a student with a low average the teacher could contact that student easily.
 
 
 ## Tech Stack
