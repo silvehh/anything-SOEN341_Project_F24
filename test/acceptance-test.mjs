@@ -6,7 +6,7 @@ describe('Student Rating and Dimension Assessment Flow', function () {
   let browser, page;
 
   before(async function () {
-    browser = await puppeteer.launch({ headless: true });
+    browser = await puppeteer.launch({ headless: false });
     page = await browser.newPage();
   });
 
@@ -14,36 +14,45 @@ describe('Student Rating and Dimension Assessment Flow', function () {
     await browser.close();
   });
 
-  it('should log in as a student, rate another student, complete further assessment, and see the confirmation page', async function () {
-    // Open the login page
+  it('should open the login page', async function () {
     await page.goto('https://assessything.up.railway.app/student-login');
+    const title = await page.title();
+    expect(title).to.include('Login'); // Adjust based on actual title
+  });
 
-    // Log in as a test student
+  it('should log in as a student', async function () {
     await page.type('input[name="email"]', 'teststudent1@student.com');
     await page.type('input[name="password"]', 'testpassword');
     await page.click('button[type="submit"]');
+    await page.waitForSelector('h2'); // Assuming this element appears after login
+    const headingText = await page.$eval('h2', el => el.textContent);
+    expect(headingText).to.include('Teammates'); // Adjust based on actual heading
+  });
 
-    // Wait for the teammates page to load after login
-    await page.waitForSelector('h2');
+  it('should navigate to the evaluation page', async function () {
+    await page.goto('https://assessything.up.railway.app/evaluate?evaluateeEmail=teststudent2@student.com');
+    await page.waitForSelector('h1'); // Assuming this element exists on the evaluation page
+    const evaluationHeading = await page.$eval('h1', el => el.textContent);
+    expect(evaluationHeading).to.include('Evaluate'); // Adjust based on actual heading
+  });
 
-    // Navigate to the evaluation page for a specific student
-    await page.goto('https://assessything.up.railway.app/evaluate?evaluateeEmail=teststudent2@student.com'); // Replace with the appropriate evaluatee email
-
-    // Verify evaluation page loaded and rate the student
-    await page.waitForSelector('h1');
+  it('should rate the student', async function () {
     await page.type('#rating', '5');
     await page.click('.btn');
+    await page.waitForSelector('h2'); // Assuming this leads to the next assessment page
+    const assessmentHeading = await page.$eval('h2', el => el.textContent);
+    expect(assessmentHeading).to.include('Dimension-Based Assessment'); // Adjust as needed
+  });
 
-    await page.waitForSelector('h2'); // Heading on the Dimension-Based Assessment page
-
-    // Fill out the three textboxes
+  it('should complete the dimension-based assessment', async function () {
     await page.type('#q1', 'Demonstrated good understanding of concepts');
     await page.type('#q2', 'Contributed significantly to practical tasks');
     await page.type('#q3', 'Showed strong work ethic throughout the project');
+    await page.click('.btn'); // Submit assessment
+  });
 
-    await page.click('.btn'); // Click the "Submit Assessment" button
-
-    await page.waitForSelector('h1'); // Wait for confirmation heading
+  it('should display the confirmation page', async function () {
+    await page.waitForSelector('h1'); // Confirmation heading
     const confirmationText = await page.$eval('h1', el => el.textContent);
     expect(confirmationText).to.include('Thank You!');
   });
