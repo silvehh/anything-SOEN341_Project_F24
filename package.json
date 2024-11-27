@@ -31,7 +31,8 @@
     "test:unit1": "mocha test/valid.test.mjs",
     "test:unit2": "mocha test/valid2.test.mjs",
     "test:conceptual": "mocha test/ConceptualContribution.test.mjs",
-    "test:practical": "mocha test/PracticalContribution.test.mjs"
+    "test:practical": "mocha test/PracticalContribution.test.mjs",
+    "test:work-ethic": "mocha test/WorkEthic.test.mjs"
   },
   "type": "commonjs",
   "keywords": []
