@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { appendToCSV } from '../src/appendToCSV.mjs'; // Adjust path to your `appendToCSV` function
+import { appendToCSV } from './appendToCSV.mjs'; // Adjust path to your `appendToCSV` function
 import fs from 'fs';
 import path from 'path';
 

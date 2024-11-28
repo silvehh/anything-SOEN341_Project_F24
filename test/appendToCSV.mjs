@@ -3,6 +3,7 @@ import csv from 'fast-csv'; // Import the fast-csv module
 
 /**
  * Appends data to a CSV file, writing headers if the file is new or empty.
+ * Handles empty headers gracefully by not including them.
  * @param {string} filePath - Path to the CSV file.
  * @param {Object} data - The data object to append to the CSV.
  * @param {Array<string>} headers - The headers for the CSV file.
@@ -14,7 +15,7 @@ export function appendToCSV(filePath, data, headers) {
 
     // Check if the file exists or is empty
     if (!fs.existsSync(filePath) || fs.statSync(filePath).size === 0) {
-      writeHeaders = true;
+      writeHeaders = headers.length > 0; // Write headers only if they are provided
     }
 
     // Create a write stream with append mode
