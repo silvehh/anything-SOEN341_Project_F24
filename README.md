@@ -11,7 +11,7 @@
 - **Role-Based Login System**: Dedicated login pages for students and teachers provide tailored functionality for each role.
 - **Google OAuth Login**: Users can conveniently log in using their Google accounts.
 - **Student page**: When students log in to their pages, they see a list that includes the name of their teammates. By clicking on the names, they have the option to evaluate their teammates.
-- **Evaluation page**: Divided into two pages. The first page is the evaluation of the teammates cooperation from 0 to 5. The second page is the evaluation of the teammates contributions in a project.
+- **Evaluation page**: Divided into two pages. The first page is the evaluation of the teammates cooperation from 1 to 5. The second page is the evaluation of the teammates contributions in a project.
 - **Confirmation page**: A page showing a message that your evaluation has been submitted.
 - **Teacher page**: Once the teacher log in to his/her page he/she can create team, and assign students to specific groups.
 - **Warning message**: Verifying if the rating inputed by a student is between 1 to 5 (within the accepted range). If not, it will warn the student about it.
