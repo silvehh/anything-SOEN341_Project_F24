@@ -3,7 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>Feedback Form</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            height: 100vh;
+            background-image: linear-gradient(to top, #708090, #778d95, #859a99, #97a59e, #aaafa7, #a7aca4, #a5aaa2, #a2a79f, #8a9690, #738585, #61747a, #55616e);
+            color: #E0E0E0; /* Light grey text for readability */
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(77, 77, 77, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        label {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            margin: 10px 0;
+            width: 50%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            background-color: #4F8A8B;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+    </style>
 </head>
 <body>
     <div class="container">

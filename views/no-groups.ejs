@@ -2,61 +2,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Submission Confirmed</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Groups Assigned</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
             background-image: linear-gradient(to top, #708090, #778d95, #859a99, #97a59e, #aaafa7, #a7aca4, #a5aaa2, #a2a79f, #8a9690, #738585, #61747a, #55616e);
-            color: #E0E0E0; /* Light grey text for readability */
+            color: #E0E0E0;
         }
 
         .container {
             text-align: center;
             background-color: rgba(77, 77, 77, 0.95);
-            padding: 20px;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
             width: 400px;
         }
 
-        h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
+        .container h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 0 0 20px;
         }
 
-        p {
-            font-size: 16px;
-            margin-bottom: 20px;
+        .container p {
+            font-size: 1.2em;
+            margin: 20px 0;
         }
 
         .btn {
             padding: 10px 20px;
-            margin: 10px;
-            border: none;
-            background-color: #4F8A8B;
+            font-size: 1em;
             color: white;
-            cursor: pointer;
-            font-size: 16px;
+            background-color: #4F8A8B;
+            border: none;
             border-radius: 5px;
             text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
         .btn:hover {
-            opacity: 0.9;
+            background-color: #3e7073;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Thank You!</h1>
-        <p>Your assessment has been successfully submitted.</p>
-        <button class="btn" onclick="window.location.href='/'">Return to main page</button>
+        <h1>No Groups Assigned</h1>
+        <p>You are not assigned to any group yet, <strong><%= studentEmail %></strong>.</p>
+        <a href="/" class="btn">Return to Homepage</a>
     </div>
 </body>
 </html>

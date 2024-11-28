@@ -1,94 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Teacher Dashboard</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <!-- Include any additional CSS or JS files -->
     <style>
-        /* Additional styles for modals and group lists */
-        .group-item {
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: linear-gradient(to top, #708090, #778d95, #859a99, #97a59e, #aaafa7, #a7aca4, #a5aaa2, #a2a79f, #8a9690, #738585, #61747a, #55616e);
+            color: #E0E0E0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px 0;
             background-color: rgba(77, 77, 77, 0.95);
-            margin: 20px;
             padding: 20px;
             border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .groups-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .group-item {
+            background-color: rgba(60, 60, 60, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            width: calc(33% - 20px);
+            min-width: 300px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .group-item h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
         }
 
         .student-list {
             list-style-type: none;
             padding: 0;
+            margin: 10px 0;
+            text-align: left;
         }
 
         .student-item {
-            margin: 10px 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: rgba(77, 77, 77, 0.8);
+            border-radius: 5px;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            background-color: #4F8A8B;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
         }
 
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            left: 0;
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 10;
+            /* Sit on top */
             top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+            left: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            background-color: rgba(0, 0, 0, 0.8);
+            /* Black w/ opacity */
+            justify-content: center;
+            /* Center horizontally */
+            align-items: center;
+            /* Center vertically */
         }
 
         .modal-content {
             background-color: rgba(77, 77, 77, 0.95);
-            margin: 5% auto;
+            /* Background for modal content */
             padding: 20px;
             border-radius: 10px;
-            width: 80%;
-            color: #E0E0E0;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            /* Needed for the close button */
         }
 
         .close {
-            color: #E0E0E0;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close:hover,
-        .close:focus {
+            position: absolute;
+            top: 10px;
+            right: 15px;
             color: #FF9F1C;
-            text-decoration: none;
+            font-size: 24px;
             cursor: pointer;
         }
 
-        label {
-            display: block;
-            margin-top: 10px;
-        }
-
-        input[type="text"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        button.btn {
-            margin-top: 15px;
-        }
-
-        .student-item span {
-            flex: 1;
+        .close:hover {
+            color: #ffbe3f;
         }
     </style>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body class="teacher-dashboard">
-    <div class="container">
+    <div class="header">
         <h1>Welcome, <%= teacher.name %>!</h1>
-        <p>Email: <%= teacher.email %></p>
+        <p>Email: <%= teacher.email %>
+        </p>
         <a href="/logout" class="btn">Logout</a>
     </div>
 
@@ -96,34 +149,44 @@
         <h2>Your Groups</h2>
         <button class="btn" onclick="showCreateGroupModal()">Create Group</button>
 
-        <% if (groups.length === 0) { %>
-            <p>You have no groups. Create one to get started.</p>
-        <% } else { %>
-            <% groups.forEach(function(group) { %>
-                <div class="group-item">
-                    <h3><%= group.GroupName %></h3>
-                    <button class="btn" onclick="showAddStudentsModal('<%= group.GroupID %>')">Add Students</button>
-                    <h4>Students:</h4>
-                    <% if (group.students.length === 0) { %>
-                        <p>No students in this group.</p>
-                    <% } else { %>
-                        <ul class="student-list">
-                            <% group.students.forEach(function(student) { %>
-                                <li class="student-item">
-                                    <span><%= student.name %> (<%= student.email %>)</span>
-                                    <span>Average Rating: <%= student.averageRating %></span>
-                                    <button class="btn" onclick="showStudentEvaluations('<%= group.GroupID %>', '<%= student.email %>', '<%= student.name %>')">View Evaluations</button>
-                                </li>
-                            <% }); %>
-                        </ul>
-                    <% } %>
-                </div>
-            <% }); %>
-        <% } %>
+        <div class="groups-container">
+            <% if (groups.length===0) { %>
+                <p>You have no groups. Create one to get started.</p>
+                <% } else { %>
+                    <% groups.forEach(function(group) { %>
+                        <div class="group-item">
+                            <h3>
+                                <%= group.GroupName %>
+                            </h3>
+                            <button class="btn" onclick="showAddStudentsModal('<%= group.GroupID %>')">Add
+                                Students</button>
+                            <!-- New View Chart button -->
+                            <button class="btn" onclick="showGroupChart('<%= group.GroupID %>', '<%= group.GroupName %>')">View Chart</button>
+                            <h4>Students:</h4>
+                            <% if (group.students.length===0) { %>
+                                <p>No students in this group.</p>
+                                <% } else { %>
+                                    <ul class="student-list">
+                                        <% group.students.forEach(function(student) { %>
+                                            <li class="student-item">
+                                                <span>
+                                                    <%= student.name %> (<%= student.email %>)
+                                                </span>
+                                                <span>Avg: <%= student.averageRating %></span>
+                                                <button class="btn"
+                                                    onclick="showStudentEvaluations('<%= group.GroupID %>', '<%= student.email %>', '<%= student.name %>')">View
+                                                    Evaluations</button>
+                                            </li>
+                                            <% }); %>
+                                    </ul>
+                                    <% } %>
+                        </div>
+                        <% }); %>
+                            <% } %>
+        </div>
     </div>
 
-    <!-- Modals for creating groups, adding students, and viewing evaluations -->
-    <!-- Modal for Creating Group -->
+    <!-- Modals -->
     <div id="createGroupModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeCreateGroupModal()">&times;</span>
@@ -136,35 +199,42 @@
         </div>
     </div>
 
-    <!-- Modal for Adding Students -->
     <div id="addStudentsModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeAddStudentsModal()">&times;</span>
             <h2>Add Students to Group</h2>
             <form action="/assign-students" method="POST">
                 <input type="hidden" name="groupID" id="groupID">
-                <label for="studentEmails">Student Emails (comma-separated):</label>
+                <label for="studentEmails">Student Emails:</label>
                 <textarea name="studentEmails" id="studentEmails" required></textarea>
                 <button class="btn" type="submit">Add Students</button>
             </form>
         </div>
     </div>
 
-    <!-- Modal for Viewing Student Evaluations -->
     <div id="studentEvaluationsModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeStudentEvaluationsModal()">&times;</span>
             <h2>Evaluations for <span id="studentName"></span></h2>
             <div id="evaluationsContent">
-                <!-- Evaluations will be loaded here via AJAX -->
+                <!-- Student evaluations will be dynamically loaded here -->
             </div>
+            <button class="btn" id="downloadExcel" onclick="downloadEvaluations()">Download Excel Sheet</button>
+        </div>
+    </div>
+
+    <!-- New Group Chart Modal -->
+    <div id="groupChartModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeGroupChartModal()">&times;</span>
+            <h2>Group Chart: <span id="groupChartTitle"></span></h2>
+            <canvas id="groupChartCanvas"></canvas>
         </div>
     </div>
 
     <script>
-        // JavaScript functions to open and close modals
         function showCreateGroupModal() {
-            document.getElementById('createGroupModal').style.display = 'block';
+            document.getElementById('createGroupModal').style.display = 'flex';
         }
 
         function closeCreateGroupModal() {
@@ -173,7 +243,7 @@
 
         function showAddStudentsModal(groupID) {
             document.getElementById('groupID').value = groupID;
-            document.getElementById('addStudentsModal').style.display = 'block';
+            document.getElementById('addStudentsModal').style.display = 'flex';
         }
 
         function closeAddStudentsModal() {
@@ -181,32 +251,92 @@
         }
 
         function showStudentEvaluations(groupID, studentEmail, studentName) {
-            document.getElementById('studentName').textContent = studentName;
+            document.getElementById("studentName").textContent = studentName;
+
             // Load evaluations via AJAX and display in the modal
-            fetch('/student-evaluations?groupID=' + groupID + '&studentEmail=' + encodeURIComponent(studentEmail))
+            fetch(`/student-evaluations?groupID=${groupID}&studentEmail=${encodeURIComponent(studentEmail)}`)
                 .then(response => response.text())
                 .then(html => {
-                    document.getElementById('evaluationsContent').innerHTML = html;
-                    document.getElementById('studentEvaluationsModal').style.display = 'block';
+                    document.getElementById("evaluationsContent").innerHTML = html;
+                    document.getElementById("studentEvaluationsModal").style.display = "flex";
+
+                    // Attach email to download button for backend call
+                    document.getElementById("downloadExcel").setAttribute("data-email", studentEmail);
                 });
+        }
+
+        function downloadEvaluations() {
+            const studentEmail = document.getElementById("downloadExcel").getAttribute("data-email");
+            if (studentEmail) {
+                window.location.href = `/download-evaluations/${encodeURIComponent(studentEmail)}`;
+            }
         }
 
         function closeStudentEvaluationsModal() {
             document.getElementById('studentEvaluationsModal').style.display = 'none';
         }
 
-        // Close modals when clicking outside of them
-        window.onclick = function(event) {
-            if (event.target == document.getElementById('createGroupModal')) {
-                closeCreateGroupModal();
-            }
-            if (event.target == document.getElementById('addStudentsModal')) {
-                closeAddStudentsModal();
-            }
-            if (event.target == document.getElementById('studentEvaluationsModal')) {
-                closeStudentEvaluationsModal();
-            }
+        // Function to show the group chart modal and render the chart
+        function showGroupChart(groupID, groupName) {
+            document.getElementById('groupChartTitle').textContent = groupName;
+
+            fetch('/group-reviews/' + groupID)
+                .then(response => response.json())
+                .then(data => {
+                    // Sort data by averageRating descending
+                    data.sort((a, b) => b.averageRating - a.averageRating);
+
+                    const labels = data.map(item => item.name);
+                    const ratings = data.map(item => item.averageRating);
+
+                    // Render chart
+                    const ctx = document.getElementById('groupChartCanvas').getContext('2d');
+
+                    // Destroy previous chart if exists
+                    if (window.groupChart) {
+                        window.groupChart.destroy();
+                    }
+
+                    window.groupChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Average Rating',
+                                data: ratings,
+                                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    max: 5 // Assuming rating is out of 5
+                                }
+                            }
+                        }
+                    });
+
+                    document.getElementById('groupChartModal').style.display = 'flex';
+                })
+                .catch(error => {
+                    console.error('Error fetching group data:', error);
+                    alert('An error occurred while fetching group data.');
+                });
         }
+
+        function closeGroupChartModal() {
+            document.getElementById('groupChartModal').style.display = 'none';
+        }
+
+        window.onclick = function (event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        };
     </script>
 </body>
+
 </html>
