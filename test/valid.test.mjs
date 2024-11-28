@@ -1,4 +1,4 @@
-
+//rating test , test file
 import { expect } from 'chai';
 import { rating } from './valid.mjs'
 
