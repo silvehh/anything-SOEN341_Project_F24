@@ -14,7 +14,8 @@
     "express": "^4.21.1",
     "express-session": "^1.18.1",
     "fast-csv": "^5.0.2",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "chai": "^4.5.0",

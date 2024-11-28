@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const csv = require('fast-csv');
 const bodyParser = require('body-parser');
 
-
+// Version 1
 
 const app = express();
 const PORT = 3000;
@@ -186,7 +186,6 @@ function requireTeacherLogin(req, res, next) {
   }
 }
 
-// Student routes
 app.get('/teammates', requireStudentLogin, async (req, res) => {
   try {
     const studentEmail = req.session.student.email;
@@ -194,7 +193,8 @@ app.get('/teammates', requireStudentLogin, async (req, res) => {
     const studentGroups = groupMembers.filter(member => member.StudentEmail === studentEmail);
 
     if (studentGroups.length === 0) {
-      return res.send('You are not assigned to any group.');
+      // Render "No Groups Assigned" page
+      return res.render('no-groups', { studentEmail: studentEmail });
     }
 
     const groupID = studentGroups[0].GroupID;
@@ -214,6 +214,7 @@ app.get('/teammates', requireStudentLogin, async (req, res) => {
   }
 });
 
+
 app.get('/evaluate', requireStudentLogin, async (req, res) => {
   const evaluateeEmail = req.query.evaluateeEmail;
 
@@ -231,6 +232,49 @@ app.get('/evaluate', requireStudentLogin, async (req, res) => {
     res.status(500).send('An error occurred, please try again.');
   }
 });
+
+app.get('/group-reviews/:groupID', requireTeacherLogin, async (req, res) => {
+  const groupID = req.params.groupID;
+
+  try {
+    const evaluations = await readCSV(path.join(__dirname, 'data', 'Evaluations.csv'));
+    const groupMembers = await readCSV(path.join(__dirname, 'data', 'GroupMembers.csv'));
+    const students = await readCSV(path.join(__dirname, 'data', 'students.csv'));
+
+    // Get students in the group
+    const groupStudents = groupMembers
+      .filter(member => member.GroupID === groupID)
+      .map(member => member.StudentEmail);
+
+    // Calculate average ratings for each student
+    const studentData = groupStudents.map(studentEmail => {
+      // Filter evaluations to those in this group
+      const studentEvaluations = evaluations.filter(
+        evaluation =>
+          evaluation.EvaluateeEmail === studentEmail &&
+          evaluation.GroupID === groupID // Ensure the evaluation is from the same group
+      );
+      const averageRating = studentEvaluations.length
+        ? (
+            studentEvaluations.reduce((sum, eval) => sum + parseFloat(eval.Rating), 0) /
+            studentEvaluations.length
+          ).toFixed(2)
+        : 'N/A';
+
+      const student = students.find(s => s.email === studentEmail);
+      return {
+        name: student ? student.name : studentEmail,
+        averageRating: averageRating !== 'N/A' ? parseFloat(averageRating) : 0,
+      };
+    });
+
+    res.json(studentData);
+  } catch (error) {
+    console.error('Error fetching group reviews:', error.stack);
+    res.status(500).send('An error occurred while fetching reviews.');
+  }
+});
+
 
 app.post('/submit-feedback', requireStudentLogin, (req, res) => {
   const { evaluateeEmail, rating } = req.body;
@@ -443,6 +487,40 @@ app.post('/assign-students', requireTeacherLogin, async (req, res) => {
   } catch (error) {
     console.error('Error assigning students to group:', error.stack);
     res.status(500).send('An error occurred, please try again.');
+  }
+});
+
+const xlsx = require("xlsx"); // Include xlsx library for Excel file generation
+
+app.get("/download-evaluations/:studentEmail", requireTeacherLogin, async (req, res) => {
+  const studentEmail = req.params.studentEmail;
+
+  try {
+    const evaluations = await readCSV(path.join(__dirname, "data", "Evaluations.csv"));
+    const studentEvaluations = evaluations.filter(evaluation => evaluation.EvaluateeEmail === studentEmail);
+
+    if (studentEvaluations.length === 0) {
+      // Render a "No Evaluations Found" page
+      return res.render("no-evaluations", { studentEmail });
+    }
+
+    const workbook = xlsx.utils.book_new();
+    const worksheet = xlsx.utils.json_to_sheet(studentEvaluations);
+    xlsx.utils.book_append_sheet(workbook, worksheet, "Evaluations");
+
+    const buffer = xlsx.write(workbook, { type: "buffer", bookType: "xlsx" });
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=${studentEmail}_Evaluations.xlsx`
+    );
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.send(buffer);
+  } catch (error) {
+    console.error("Error generating Excel file:", error.stack);
+    res.status(500).send("An error occurred while generating the Excel file.");
   }
 });
 
