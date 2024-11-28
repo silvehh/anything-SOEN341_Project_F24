@@ -33,7 +33,8 @@
     "test:conceptual": "mocha test/ConceptualContribution.test.mjs",
     "test:practical": "mocha test/PracticalContribution.test.mjs",
     "test:work-ethic": "mocha test/WorkEthic.test.mjs",
-    "test:ReadCSV" : "mocha test/ReadCSV.test.mjs"
+    "test:ReadCSV" : "mocha test/ReadCSV.test.mjs",
+    "test:appendCSV" : "mocha test/appendToCSV.test.mjs"
   },
   "type": "commonjs",
   "keywords": []
