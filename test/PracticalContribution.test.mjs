@@ -34,7 +34,7 @@ describe("Practical Contribution Validation", () => {
         q2Field.value = ""; // Empty value
         const isValid = validatePracticalContribution(form);
 
-        expect(isValid).to.be.false; // Chai assertion
+        expect(isValid).to.be.false; 
     });
 
     it("should pass validation when 'Practical Contribution' has a value", () => {
@@ -44,6 +44,6 @@ describe("Practical Contribution Validation", () => {
         q2Field.value = "Valid input"; // Valid value
         const isValid = validatePracticalContribution(form);
 
-        expect(isValid).to.be.true; // Chai assertion
+        expect(isValid).to.be.true; 
     });
 });

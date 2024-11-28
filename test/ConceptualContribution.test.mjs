@@ -1,4 +1,3 @@
-//test file for conceptualContribution
 import { expect } from "chai";
 import { JSDOM } from "jsdom";
 import { validateForm } from "./ConceptualContribution.mjs";
@@ -35,7 +34,7 @@ describe("Conceptual Contribution Validation", () => {
         q1Field.value = ""; // Empty value
         const isValid = validateForm(form);
 
-        expect(isValid).to.be.false; // Chai assertion
+        expect(isValid).to.be.false; 
     });
 
     it("should pass validation when 'Conceptual Contribution' has a value", () => {
@@ -45,6 +44,6 @@ describe("Conceptual Contribution Validation", () => {
         q1Field.value = "Valid input"; // Valid value
         const isValid = validateForm(form);
 
-        expect(isValid).to.be.true; // Chai assertion
+        expect(isValid).to.be.true; 
     });
 });
