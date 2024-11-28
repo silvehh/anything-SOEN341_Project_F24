@@ -34,7 +34,7 @@ describe("Work Ethic Validation", () => {
         q3Field.value = ""; // Empty value
         const isValid = validateWorkEthic(form);
 
-        expect(isValid).to.be.false; // Chai assertion
+        expect(isValid).to.be.false; 
     });
 
     it("should pass validation when 'Work Ethic' has a value", () => {
@@ -44,6 +44,6 @@ describe("Work Ethic Validation", () => {
         q3Field.value = "Works hard and stays committed"; // Valid input
         const isValid = validateWorkEthic(form);
 
-        expect(isValid).to.be.true; // Chai assertion
+        expect(isValid).to.be.true; 
     });
 });
