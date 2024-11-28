@@ -1,4 +1,4 @@
-//test file for alpha numeral function
+//import test function and library
 import { expect } from 'chai';
 import { isAlphanumeric } from './isAlphanumeric.mjs'
 
@@ -33,4 +33,5 @@ describe('isAlphanumeric', () => {
     it('should return true for input with only spaces', () => {
         expect(isAlphanumeric('   ')).to.be.true;// use case to check if space would return true as intended
     });
+    
 });

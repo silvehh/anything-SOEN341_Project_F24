@@ -3,7 +3,8 @@ import { expect } from 'chai';
 import { containsOffensiveWords } from './sentenceCheck.mjs'
 
 describe('containsOffensiveWords', () => {
-    const offensiveWords = ['badword1', 'badword2', 'badword3'];
+
+    const offensiveWords = ['badword1', 'badword2', 'badword3'];//Need to update to filter out the word
 
     // Test #1: Input contains an offensive word
     it('should return true if input contains an offensive word', () => {
@@ -49,5 +50,5 @@ describe('containsOffensiveWords', () => {
     it('should return true if offensive words are separated by punctuation', () => {
         expect(containsOffensiveWords('This contains badword1, and more.', offensiveWords)).to.equal(true);
     });
-    
+
 });
