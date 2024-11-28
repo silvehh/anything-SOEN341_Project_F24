@@ -15,7 +15,7 @@
 - **Confirmation page**: A page showing a message that your evaluation has been submitted.
 - **Teacher page**: Once the teacher log in to his/her page he/she can create team, and assign students to specific groups.
 - **Warning message**: Verifying if the rating inputed by a student is between 1 to 5 (within the accepted range). If not, it will warn the student about it.
-- **Showing Emails**: In the list of students on the teacher page, emails are displayed instead of names, so that if there is a student with a low average the teacher could contact that student easily. It also makes it less confusing for the teacher to contact the right person, because there might be two or more persons in a group with the same name.
+- **Showing Emails**: In the list of students on the teacher's page, emails are displayed instead of names, so that if there is a student with a low average the teacher could contact that student easily. It also makes it less confusing for the teacher to contact the right person, because there might be two or more persons in a group with the same name.
 - **Data row**: When a student evaluate his/her teammate, there would be a row of data for the evaluated student appearing in the teacher dashboard, showing the average of evaluations from 1 to 5, as well as the comments in the comment boxes for their contribution.
 
 

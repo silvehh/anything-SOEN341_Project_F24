@@ -22,6 +22,7 @@
     "jsdom": "^25.0.1",
     "mocha": "^10.8.2",
     "puppeteer": "^23.7.1",
+    "sinon": "^19.0.2",
     "supertest": "^6.3.3"
   },
   "scripts": {
@@ -34,7 +35,10 @@
     "test:practical": "mocha test/PracticalContribution.test.mjs",
     "test:work-ethic": "mocha test/WorkEthic.test.mjs",
     "test:ReadCSV" : "mocha test/ReadCSV.test.mjs",
-    "test:appendCSV" : "mocha test/appendToCSV.test.mjs"
+    "test:appendCSV" : "mocha test/appendToCSV.test.mjs",
+    "test:Password" : "mocha test/Validpassword.test.mjs",
+    "test:Student" : "mocha test/requireStudentLogin.test.mjs",
+    "test:Teacher": "mocha test/requireTeacherLogin.test.mjs"
   },
   "type": "commonjs",
   "keywords": []
