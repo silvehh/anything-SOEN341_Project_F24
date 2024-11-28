@@ -37,7 +37,8 @@
     "test:ReadCSV" : "mocha test/ReadCSV.test.mjs",
     "test:appendCSV" : "mocha test/appendToCSV.test.mjs",
     "test:Password" : "mocha test/Validpassword.test.mjs",
-    "test:Student" : "mocha test/requireStudentLogin.test.mjs"
+    "test:Student" : "mocha test/requireStudentLogin.test.mjs",
+    "test:Teacher": "mocha test/requireTeacherLogin.test.mjs"
   },
   "type": "commonjs",
   "keywords": []
