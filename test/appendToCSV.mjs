@@ -1,9 +1,8 @@
-import fs from 'fs'; // Import the file system module
-import csv from 'fast-csv'; // Import the fast-csv module
+import fs from 'fs'; 
+import csv from 'fast-csv'; 
 
 /**
- * Appends data to a CSV file, writing headers if the file is new or empty.
- * Handles empty headers gracefully by not including them.
+ 
  * @param {string} filePath - Path to the CSV file.
  * @param {Object} data - The data object to append to the CSV.
  * @param {Array<string>} headers - The headers for the CSV file.
@@ -15,7 +14,7 @@ export function appendToCSV(filePath, data, headers) {
 
     // Check if the file exists or is empty
     if (!fs.existsSync(filePath) || fs.statSync(filePath).size === 0) {
-      writeHeaders = headers.length > 0; // Write headers only if they are provided
+      writeHeaders = headers.length > 0; 
     }
 
     // Create a write stream with append mode
@@ -23,17 +22,17 @@ export function appendToCSV(filePath, data, headers) {
 
     // Create a CSV stream
     const csvStream = csv.format({
-      headers: writeHeaders ? headers : false, // Write headers if required
+      headers: writeHeaders ? headers : false, 
       includeEndRowDelimiter: true,
     });
 
     // Handle the CSV writing process
     csvStream
       .pipe(ws)
-      .on('finish', resolve) // Resolve the promise on success
+      .on('finish', resolve) 
       .on('error', error => {
         console.error('Error writing to CSV file:', error);
-        reject(error); // Reject the promise on error
+        reject(error); 
       });
 
     csvStream.write(data); // Write the data
