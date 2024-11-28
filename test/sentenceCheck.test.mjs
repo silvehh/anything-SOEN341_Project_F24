@@ -49,4 +49,5 @@ describe('containsOffensiveWords', () => {
     it('should return true if offensive words are separated by punctuation', () => {
         expect(containsOffensiveWords('This contains badword1, and more.', offensiveWords)).to.equal(true);
     });
+    
 });
