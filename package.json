@@ -35,7 +35,9 @@
     "test:practical": "mocha test/PracticalContribution.test.mjs",
     "test:work-ethic": "mocha test/WorkEthic.test.mjs",
     "test:ReadCSV" : "mocha test/ReadCSV.test.mjs",
-    "test:appendCSV" : "mocha test/appendToCSV.test.mjs"
+    "test:appendCSV" : "mocha test/appendToCSV.test.mjs",
+    "test:Password" : "mocha test/Validpassword.test.mjs",
+    "test:Student" : "mocha test/requireStudentLogin.test.mjs"
   },
   "type": "commonjs",
   "keywords": []
