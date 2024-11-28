@@ -71,17 +71,26 @@ describe('containsOffensiveWords', () => {
 
     // Test #10: Input contains offensive word as part of a larger word
     it('should return false if offensive word is part of a larger word', () => {
+
         expect(containsOffensiveWords('This is badword123', offensiveWords)).to.equal(false);
+
     });
 
      // Test #11: Input contains offensive words separated by punctuation
      it('should return true if offensive words are separated by punctuation', () => {
+
         expect(containsOffensiveWords('This contains badword1, and more.', offensiveWords)).to.equal(true);
+
     });
 
     // Test #12: Input contains offensive words in a sentence with punctuation
     it('should return true if offensive words are embedded in a sentence with punctuation', () => {
+
         expect(containsOffensiveWords('The following words are bad: badword1.', offensiveWords)).to.equal(true);
+
     });
+
     
+
+
 });
