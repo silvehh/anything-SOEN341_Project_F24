@@ -1,3 +1,6 @@
+import fs from 'fs'; // Import the fs module
+import csv from 'fast-csv'; // Import the fast-csv module
+
 export function readCSV(filePath) {
     return new Promise((resolve, reject) => {
       const data = [];
