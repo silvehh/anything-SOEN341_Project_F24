@@ -1,4 +1,4 @@
-
+//rating test , test file
 import { expect } from 'chai';
 import { rating } from './valid.mjs'
 
@@ -58,6 +58,26 @@ describe('rating', () => {
        
         expect(rating(-1)).to.equal(false);
     })
+
+    // Additional edge case: Testing with non-integer values
+    it('Should return false for a non-integer value (e.g., 2.5)', () => {
+        expect(rating(2.5)).to.equal(false);
+    });
+
+    // Additional edge case: Testing with a string input
+    it('Should return false for a string input (e.g., "3")', () => {
+        expect(rating("3")).to.equal(false);
+    });
+
+    // Additional edge case: Testing with a null input
+    it('Should return false for a null input', () => {
+        expect(rating(null)).to.equal(false);
+    });
+
+    // Additional edge case: Testing with an undefined input
+    it('Should return false for an undefined input', () => {
+        expect(rating(undefined)).to.equal(false);
+    });
 
 })
     
